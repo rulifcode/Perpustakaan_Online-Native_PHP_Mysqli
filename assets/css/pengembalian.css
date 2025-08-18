@@ -1,0 +1,239 @@
+body {
+    background-color: #ecf0f5;
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* Container */
+.container {
+    padding: 20px;
+}
+
+/* Card */
+.card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.1);
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.card-header h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Form */
+.form-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 15px;
+    align-items: center;
+}
+
+.form-row label {
+    font-weight: bold;
+}
+
+.form-select,
+.form-control {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    width: auto;
+}
+
+/* Tombol */
+button,
+.btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.btn-primary {
+    background-color: #1e3a8a;
+    color: #fff;
+}
+
+.btn-danger {
+    background-color: #e74c3c;
+    color: white;
+}
+
+.btn-success {
+    background-color: #2ecc71;
+    color: white;
+}
+
+.btn-secondary {
+    background-color: #7f8c8d;
+    color: white;
+}
+
+.btn-sm {
+    padding: 4px 10px;
+    font-size: 13px;
+}
+
+/* Table */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+}
+
+.table th,
+.table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+    font-size: 14px;
+}
+
+.table thead {
+    background-color: #1e3a8a;
+    color: white;
+}
+
+.table-responsive {
+    overflow-x: auto;
+    margin-top: 15px;
+}
+
+/* Status Warna */
+.status-hijau {
+    color: green;
+    font-weight: bold;
+}
+
+.status-merah {
+    color: red;
+    font-weight: bold;
+}
+
+/* Badge Lunas */
+.badge-lunas {
+    color: blue;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.badge-belum-lunas {
+    color: red;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+   .pagination-container {
+            margin-top: 20px;
+            padding: 20px 0;
+            border-top: 1px solid #e0e0e0;
+        }
+        
+        .pagination-info {
+            text-align: center;
+            margin-bottom: 15px;
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .pagination-btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 8px 16px;
+            text-decoration: none;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            color: #333;
+            background: #fff;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            min-width: 44px;
+            justify-content: center;
+        }
+        
+        .pagination-btn:hover {
+            background: #f8f9fa;
+            border-color: #007bff;
+            color: #007bff;
+            text-decoration: none;
+        }
+        
+        .pagination-btn.active {
+            background: #007bff;
+            border-color: #007bff;
+            color: #fff;
+        }
+        
+        .pagination-btn.disabled {
+            background: #f8f9fa;
+            color: #6c757d;
+            border-color: #dee2e6;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+        
+        .pagination-btn.disabled:hover {
+            background: #f8f9fa;
+            color: #6c757d;
+            border-color: #dee2e6;
+        }
+        
+        .pagination-btn i {
+            font-size: 12px;
+        }
+        
+        .pagination-btn .btn-text {
+            margin-left: 5px;
+        }
+        
+        .pagination-btn.prev .btn-text {
+            margin-left: 0;
+            margin-right: 5px;
+        }
+        
+        /* Responsive pagination */
+        @media (max-width: 768px) {
+            .pagination {
+                gap: 5px;
+            }
+            
+            .pagination-btn {
+                padding: 6px 12px;
+                font-size: 13px;
+                min-width: 36px;
+            }
+            
+            .pagination-btn .btn-text {
+                display: none;
+            }
+            
+            .pagination-info {
+                font-size: 13px;
+            }
+        }
+        
+        /* Hide page numbers on very small screens */
+        @media (max-width: 480px) {
+            .pagination-btn.page-num {
+                display: none;
+            }
+            
+            .pagination-btn.page-num.active {
+                display: inline-flex;
+            }
+        }

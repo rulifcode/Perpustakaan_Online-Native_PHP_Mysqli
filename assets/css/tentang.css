@@ -1,0 +1,322 @@
+
+  header {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 1000 !important;
+  }
+  
+  /* Pastikan body tidak tertimpa header */
+/* Tambahkan di paling atas <style> */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f5faff;
+  margin: 0;
+  padding: 0;
+  color: #1f3c88;
+  padding-top: 80px; /* Beri ruang untuk sticky header */
+}
+
+  /* Reset z-index untuk section lain */
+  .sejarah-section {
+    padding: 80px 20px;
+    background-color: #ffffff;
+    z-index: 1;
+    position: relative;
+  }
+
+    .sejarah-container {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .sejarah-text {
+      flex: 1 1 50%;
+    }
+
+    .sejarah-text h1 {
+      font-size: 2.7rem;
+      color: #1f3c88;
+      margin-bottom: 1rem;
+    }
+
+    .sejarah-text p {
+      font-size: 1.1rem;
+      line-height: 1.7;
+      color: #333;
+    }
+
+    .btn-sejarah {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 10px 25px;
+      background-color: #1f3c88;
+      color: white;
+      text-decoration: none;
+      border-radius: 50px;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn-sejarah:hover {
+      background-color: #162c64;
+    }
+
+    .sejarah-image {
+      flex: 1 1 45%;
+      text-align: center;
+    }
+
+    .sejarah-image img {
+      width: 100%;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    }
+
+    .parallax {
+      min-height: 100vh;
+      background-attachment: fixed;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      text-align: center;
+      color: white;
+      position: relative;
+    }
+
+    .content-box {
+      max-width: 800px;
+      padding: 3rem;
+      background: rgba(252, 232, 232, 0.7);
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .mission-section,
+    .vision-section {
+      z-index: 0;
+    }
+
+    .section-title {
+      font-size: 2.5rem;
+      margin-bottom: 1.5rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .section-description {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+      line-height: 1.6;
+    }
+
+    .icon-box {
+      width: 80px;
+      height: 80px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.5rem;
+    }
+
+    .icon-box i {
+      font-size: 2.5rem;
+      color: #fff;
+    }
+
+    .mission-points, .vision-features {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .point, .feature-card {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 1.5rem;
+      border-radius: 10px;
+      min-width: 200px;
+      color: white;
+    }
+
+    .point i {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+      display: block;
+      color: rgb(255, 204, 102);
+    }
+
+    .feature-card h3 {
+      color: #f1c40f;
+      margin-bottom: 0.5rem;
+    }
+
+    .cta-button {
+      display: inline-block;
+      padding: 0.8rem 2rem;
+      background: #e74c3c;
+      color: white;
+      text-decoration: none;
+      border-radius: 50px;
+      font-weight: 600;
+      margin-top: 1.5rem;
+      transition: all 0.3s ease;
+    }
+
+    .cta-button:hover {
+      background: #c0392b;
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .tim-section {
+      padding: 60px 20px;
+      background-color: #eaf3ff;
+      text-align: center;
+    }
+
+    .tim-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2rem;
+    }
+
+    .tim-card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+      padding: 20px;
+      width: 220px;
+      transition: transform 0.3s ease;
+    }
+
+    .tim-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .tim-card img {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 50%;
+      margin-bottom: 1rem;
+    }
+
+    .tim-card h3 {
+      font-size: 1.1rem;
+      color: #1f3c88;
+      margin-bottom: 5px;
+    }
+
+    .tim-card p {
+      color: #555;
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 768px) {
+      .sejarah-container {
+        flex-direction: column;
+        text-align: center;
+      }
+      .sejarah-text h1 {
+        font-size: 2rem;
+      }
+      .content-box {
+        padding: 2rem 1rem;
+      }
+      .mission-points, .vision-features {
+        flex-direction: column;
+      }
+    }
+    
+.main-footer {
+  background: linear-gradient(135deg, #1f3c88, #2c66b8);
+  color: #eee;
+  padding: 40px 20px 20px;
+  font-size: 15px;
+  letter-spacing: 0.03em;
+  user-select: none;
+}
+
+.footer-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+  max-width: 1200px;
+  margin: 0 auto 24px auto;
+  justify-content: space-between;
+}
+
+.footer-about,
+.footer-links,
+.footer-contact {
+  flex: 1 1 280px;
+}
+
+.footer-about h3,
+.footer-links h3,
+.footer-contact h3 {
+  margin-bottom: 24px;
+  font-weight: 700;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.footer-links ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-links ul li {
+  margin-bottom: 14px;
+}
+
+.footer-links ul li a {
+  color: #bbb;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.footer-links ul li a:hover {
+  color: #ffdd57;
+  text-decoration: underline;
+}
+
+.footer-contact p {
+  margin: 8px 0;
+  color: #bbb;
+  font-weight: 500;
+}
+
+.footer-bottom {
+  text-align: center;
+  border-top: 1px solid #2c66b8;
+  padding-top: 14px;
+  font-size: 13px;
+  color: #bbb;
+  user-select: none;
+}

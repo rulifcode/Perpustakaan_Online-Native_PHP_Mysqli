@@ -1,0 +1,204 @@
+body {
+    margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to bottom, #e4f0ff, #ffffff);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+            box-sizing: border-box;
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 520px;
+        }
+
+        .login-box {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            padding: 25px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+        }
+
+        .login-box h2 {
+            text-align: center;
+            margin: 0 0 20px 0;
+            font-size: 24px;
+            font-weight: 700;
+            color: #2d3748;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .form-row {
+            display: contents;
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: all 0.3s ease;
+            background: white;
+            box-sizing: border-box;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        input::placeholder {
+            color: #a0aec0;
+        }
+
+        select {
+            cursor: pointer;
+        }
+
+        #extra-fields {
+            grid-column: 1 / -1;
+            display: none;
+            background: rgba(102, 126, 234, 0.05);
+            padding: 15px;
+            border-radius: 12px;
+            margin-top: 8px;
+        }
+
+        #extra-fields.show {
+            display: block;
+        }
+
+        #extra-fields label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #4a5568;
+            margin-bottom: 8px;
+        }
+
+        #extra-fields input {
+            margin-bottom: 10px;
+        }
+
+        #extra-fields input:last-child {
+            margin-bottom: 0;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background-color: #1d4ed8;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            margin-top: 15px;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .login-box p {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 14px;
+            color: #718096;
+        }
+
+        .login-box p a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .login-box p a:hover {
+            text-decoration: underline;
+        }
+
+        .message {
+            text-align: center;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .success {
+            background: rgba(72, 187, 120, 0.1);
+            color: #2f855a;
+            border: 1px solid rgba(72, 187, 120, 0.3);
+        }
+
+        .error {
+            background: rgba(245, 101, 101, 0.1);
+            color: #c53030;
+            border: 1px solid rgba(245, 101, 101, 0.3);
+        }
+
+        @media (max-width: 600px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+            
+            .login-box {
+                padding: 20px;
+                margin: 10px;
+            }
+            
+            .login-box h2 {
+                font-size: 22px;
+            }
+        }
+
+        /* Animation for extra fields */
+        #extra-fields {
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            opacity: 0;
+        }
+
+        #extra-fields.show {
+            max-height: 200px;
+            opacity: 1;
+        }

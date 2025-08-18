@@ -1,0 +1,197 @@
+body {
+    background-color: #f1f6ff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.main-content {
+    padding: 20px;
+    background-color: #f5faff;
+    margin-left: 300px; /* agar tidak tertutup sidebar */
+}
+
+
+h2 {
+    margin-top: 10px;
+    text-align: center;
+    color: #2c3e50;
+    font-size: 24px;
+}
+
+.filter-container {
+    text-align: center;
+    margin: 20px 0 30px;
+}
+
+.filter-btn {
+    padding: 8px 16px;
+    margin: 5px;
+    background-color: #ffffff;
+    color: #007bff;
+    border: 1px solid #007bff;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+.filter-btn:hover {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.filter-btn.active {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.table-container {
+    overflow-x: auto;
+    background: white;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.tabel-pengajuan {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+.tabel-pengajuan thead {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.tabel-pengajuan th, .tabel-pengajuan td {
+    padding: 12px;
+    border: 1px solid #dee2e6;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.tabel-pengajuan img {
+    height: 80px;
+    width: auto;
+    border-radius: 4px;
+}
+
+.btn-blue {
+    background-color: #007bff;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 4px;
+    text-decoration: none;
+    margin: 2px;
+    display: inline-block;
+}
+
+.btn-blue:hover {
+    background-color: #0056b3;
+}
+
+.btn-red {
+    background-color: #dc3545;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 4px;
+    text-decoration: none;
+    margin: 2px;
+    display: inline-block;
+}
+
+.btn-red:hover {
+    background-color: #b02a37;
+}
+
+.header-wrapper {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.judul-halaman {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.filter-container {
+    background-color: #e3f2fd;
+    padding: 10px;
+    border-radius: 8px;
+    display: inline-block;
+}
+
+.filter-btn {
+    padding: 8px 14px;
+    margin: 4px;
+    background-color: #d0dfff;
+    color: #000;
+    border: none;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: 0.2s;
+}
+
+.filter-btn:hover {
+    background-color: #a3c8ff;
+}
+
+.filter-btn.active {
+    background-color: #2979ff;
+    color: #fff;
+}
+
+.table-container {
+    margin-top: 20px;
+    overflow-x: auto;
+}
+
+.tabel-pengajuan {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #ffffff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+}
+
+.tabel-pengajuan th, .tabel-pengajuan td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.tabel-pengajuan th {
+    background-color: #e3f2fd;
+    color: #333;
+    font-weight: bold;
+}
+
+.tabel-pengajuan img {
+    max-height: 80px;
+    object-fit: contain;
+    border-radius: 6px;
+}
+
+.back-link {
+    display: inline-block;
+    margin-top: 20px;
+    text-decoration: none;
+    padding: 8px 14px;
+    background-color: #2979ff;
+    color: white;
+    border-radius: 6px;
+    transition: background-color 0.3s;
+}
+
+.back-link:hover {
+    background-color: #1565c0;
+}
+
+.message {
+    margin: 15px 0;
+    padding: 10px;
+    background: #e6f7ff;
+    border-left: 4px solid #1890ff;
+    font-weight: bold;
+    color: #333;
+}
