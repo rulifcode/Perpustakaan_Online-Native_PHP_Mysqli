@@ -86,8 +86,8 @@
 ## 🚀 Instalasi & Setup
 
 ### 📋 **Requirements**
-- PHP 7.4+ atau PHP 8.x
-- MySQL 5.7+ atau MariaDB
+- Versi Terbaru PHP 8.x
+- MySQLI + atau MariaDB
 - Web Server (Apache/Nginx)
 - XAMPP/Laragon/WAMP
 
@@ -110,13 +110,18 @@ cd Perpustakaan_Online-Native_PHP_Mysqli
 
 ### ⚙️ **Konfigurasi Database**
 
-```php
-// config/database.php
+...
 <?php
-define('DB_HOST', 'localhost');
-define('DB_USER', 'root');
-define('DB_PASS', '');
-define('DB_NAME', 'perpustakaan_online');
+      $host = "localhost";
+      $user = "root";
+      $pass = "";
+      $db = "perpustakaan";
+
+$conn = mysqli_connect($host, $user, $pass, $db);
+
+if (!$conn) {
+    die("Koneksi gagal: " . mysqli_connect_error());
+}
 ?>
 ```
 
@@ -197,8 +202,8 @@ Project ini dilisensikan under **MIT License** - lihat file [LICENSE](LICENSE) u
 **Rulifcode**
 
 [![GitHub](https://img.shields.io/badge/-GitHub-181717?style=flat-square&logo=github)](https://github.com/rulifcode)
-[![LinkedIn](https://img.shields.io/badge/-LinkedIn-0077B5?style=flat-square&logo=linkedin&logoColor=white)](https://linkedin.com/in/rulifcode)
-[![Instagram](https://img.shields.io/badge/-Instagram-E4405F?style=flat-square&logo=instagram&logoColor=white)](https://instagram.com/rulifcode)
+[![LinkedIn](https://img.shields.io/badge/-LinkedIn-0077B5?style=flat-square&logo=linkedin&logoColor=white)](https://linkedin.com/in/ruliffadrian)
+[![Instagram](https://img.shields.io/badge/-Instagram-E4405F?style=flat-square&logo=instagram&logoColor=white)](https://instagram.com/ruliffadrian)
 
 *"Code with passion, build with purpose"*
 
@@ -210,6 +215,6 @@ Project ini dilisensikan under **MIT License** - lihat file [LICENSE](LICENSE) u
 
 ### ⭐ **Jika project ini membantu, berikan star ya!** ⭐
 
-**Made with ❤️ in Indonesia**
+**Made with ❤️ Mahasiswa Universitas Sangga Buana Ypkp (Rulif Fadria, Arum Laras Putri, Febriana, Syahrizal Abdan**
 
 </div>
