@@ -1,186 +1,143 @@
-.main-footer {
-  background: linear-gradient(135deg, #1f3c88, #2c66b8);
-  color: #eee;
-  padding: 40px 20px 20px;
-  font-size: 15px;
-  letter-spacing: 0.03em;
-  user-select: none;
+/* ============ FOOTER RAPIIH ============ */
+.main-footer{
+  background:#0e1a2b;
+  color:rgba(255,255,255,.65);
+  padding:75px 40px 28px;
 }
 
-.footer-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 40px;
-  max-width: 1200px;
-  margin: 0 auto 24px auto;
-  align-items: start;
+.footer-container{
+  max-width:1200px;
+  margin:auto;
+  display:grid;
+  grid-template-columns:1.2fr 1fr 1.2fr;
+  gap:70px;
+  align-items:start;
 }
 
-.footer-about,
-.footer-links,
-.footer-contact {
-  min-width: 0;
-}
-
+/* TITLE */
 .footer-about h3,
 .footer-links h3,
-.footer-contact h3 {
-  margin-bottom: 24px;
-  font-weight: 700;
-  color: #fff;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
+.footer-social h3{
+  font-family:'Cormorant Garamond', serif;
+  font-size:28px;
+  color:#e8d9b5;
+  margin-bottom:20px;
+  font-weight:600;
 }
 
-.footer-links ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+/* ABOUT */
+.footer-about p{
+  font-size:15px;
+  line-height:1.9;
+  color:rgba(255,255,255,.58);
+  max-width:330px;
 }
 
-.footer-links ul li {
-  margin-bottom: 14px;
+/* LINKS */
+.footer-links ul{
+  list-style:none;
+  margin:0;
+  padding:0;
 }
 
-.footer-links ul li a {
-  color: #bbb;
-  text-decoration: none;
-  font-weight: 500;
-  transition: color 0.3s ease;
+.footer-links li{
+  margin-bottom:14px;
 }
 
-.footer-links ul li a:hover {
-  color: #ffdd57;
-  text-decoration: underline;
+.footer-links a{
+  text-decoration:none;
+  color:rgba(255,255,255,.58);
+  transition:.3s;
+  font-size:14px;
 }
 
-.footer-contact p,
-.footer-contact a {
-  margin: 8px 0;
-  color: #bbb;
-  font-weight: 500;
-  text-decoration: none;
+.footer-links a:hover{
+  color:#c8aa64;
+  padding-left:4px;
 }
 
-.footer-contact a:hover {
-  color: #ffdd57;
+/* SOCIAL */
+.footer-social{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
 }
 
-.footer-bottom {
-  text-align: center;
-  border-top: 1px solid #2c66b8;
-  padding-top: 14px;
-  font-size: 13px;
-  color: #bbb;
-  user-select: none;
+.footer-social a{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  text-decoration:none;
+  color:rgba(255,255,255,.58);
+  transition:.3s;
+  font-size:14px;
 }
 
-/* =========== Responsive Breakpoints =========== */
+.footer-social a i{
+  width:38px;
+  height:38px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:rgba(255,255,255,.05);
+  color:#c8aa64;
+  font-size:15px;
+  flex-shrink:0;
+}
 
-/* Tablet (medium devices) */
-@media screen and (max-width: 992px) {
-  .footer-container {
-    gap: 32px;
+.footer-social a:hover{
+  color:#fff;
+  transform:translateX(5px);
+}
+
+.footer-social a:hover i{
+  background:#c8aa64;
+  color:#0e1a2b;
+}
+
+/* BOTTOM */
+.footer-bottom{
+  max-width:1200px;
+  margin:55px auto 0;
+  padding-top:24px;
+  border-top:1px solid rgba(255,255,255,.08);
+  text-align:center;
+}
+
+.footer-bottom p{
+  font-size:13px;
+  color:rgba(255,255,255,.35);
+  letter-spacing:.04em;
+}
+
+/* TABLET */
+@media(max-width:900px){
+  .footer-container{
+    grid-template-columns:1fr 1fr;
+    gap:45px;
   }
 
-  .main-footer {
-    padding: 30px 18px 15px;
-    font-size: 14px;
-  }
-}
-
-/* HP besar (phablet, pixel 6+, iPhone Plus) */
-@media screen and (max-width: 768px) {
-  .footer-container {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 24px;
-  }
-
-  .footer-about h3,
-  .footer-links h3,
-  .footer-contact h3 {
-    font-size: 16px;
-    margin-bottom: 16px;
-  }
-
-  .footer-about p,
-  .footer-contact p,
-  .footer-links ul li a {
-    font-size: 14px;
-  }
-}
-
-/* HP menengah (iPhone X, Galaxy A-series) */
-@media screen and (max-width: 600px) {
-  .footer-container {
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-  }
-
-  .main-footer {
-    padding: 25px 12px 12px;
-    font-size: 13.5px;
-  }
-
-  .footer-about p,
-  .footer-contact p {
-    font-size: 13px;
-    line-height: 1.4;
-  }
-
-  .footer-links ul li {
-    margin-bottom: 10px;
-  }
-
-  .footer-bottom {
-    font-size: 12px;
-    padding-top: 10px;
+  .footer-social{
+    grid-column:span 2;
   }
 }
 
-/* HP kecil (iPhone SE, Redmi kecil) */
-@media screen and (max-width: 480px) {
-  .footer-container {
-    grid-template-columns: 1fr;
-    text-align: center;
-    gap: 18px;
+/* MOBILE */
+@media(max-width:600px){
+  .main-footer{
+    padding:60px 24px 25px;
   }
 
-  .footer-about,
-  .footer-links,
-  .footer-contact {
-    text-align: center;
+  .footer-container{
+    grid-template-columns:1fr;
+    gap:38px;
   }
 
-  .footer-about h3,
-  .footer-links h3,
-  .footer-contact h3 {
-    font-size: 15px;
-    margin-bottom: 14px;
+  .footer-social{
+    grid-column:auto;
   }
 
-  .footer-about p,
-  .footer-contact p,
-  .footer-contact a,
-  .footer-links ul li a {
-    font-size: 12.5px;
-  }
-
-  .main-footer {
-    padding: 20px 10px 10px;
-    font-size: 13px;
-  }
-
-  .footer-bottom {
-    font-size: 11px;
-  }
-}
-
-/* Hilangkan efek hover di layar sentuh */
-@media (hover: none) and (pointer: coarse) {
-  .footer-links ul li a:hover,
-  .footer-contact a:hover {
-    color: #bbb;
-    text-decoration: none;
+  .footer-about p{
+    max-width:100%;
   }
 }

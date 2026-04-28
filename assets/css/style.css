@@ -1,1054 +1,440 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --navy:       #0d1f4e;
+  --navy-mid:   #1f3c88;
+  --navy-light: #2c55b5;
+  --gold:       #c9a84c;
+  --gold-light: #e6c878;
+  --cream:      #f7f4ef;
+  --cream-dark: #ede9e0;
+  --white:      #ffffff;
+  --text-body:  #3a3a3a;
+  --text-muted: #7a7a7a;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
 body {
-  margin: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(135deg, #f0f7ff 0%, #dbe9ff 100%);
-  color: #1f3c88;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  font-family: 'DM Sans', sans-serif;
+  background-color: var(--cream);
+  color: var(--text-body);
 }
 
+/* ============ UTILITIES ============ */
 .container {
-  max-width: 1100px;
-  margin: auto;
-  padding: 10px;
-}
-/* Navigasi utama */
-.nav-menu {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 40px;
 }
 
-.nav-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  gap: 20px;
-}
-
-.nav-list li {
-  position: relative;
-}
-
-.nav-list a {
-  text-decoration: none;
-  padding: 10px 15px;
-  color: #1f3c88;
+.section-eyebrow {
+  font-size: 0.72rem;
   font-weight: 500;
-  border-radius: 5px;
-  transition: background 0.3s;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 16px;
 }
 
-.nav-list a:hover {
-  background-color: rgba(31, 60, 136, 0.1);
+.section-title-main {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+  font-weight: 400;
+  color: var(--navy);
+  line-height: 1.25;
+  margin-bottom: 56px;
 }
 
-/* Dropdown */
-.dropdown-menu {
-  position: absolute;
-  top: 110%;
-  left: 0;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(8px);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-  border-radius: 10px;
-  padding: 10px 0;
-  min-width: 200px;
-  display: none;
-  z-index: 1000;
-  transition: all 0.3s ease;
-  opacity: 0;
-  visibility: hidden;
-}
-
-.dropdown:hover .dropdown-menu {
-  display: block;
-  opacity: 1;
-  visibility: visible;
-}
-
-.dropdown-menu li a {
-  display: block;
-  padding: 10px 20px;
-  color: #333;
-  transition: background 0.3s, padding-left 0.3s;
-}
-
-.dropdown-menu li a:hover {
-  background-color: #f0f7ff;
-  padding-left: 25px;
-}
-
+/* ============ HERO ============ */
 .hero {
-  background: linear-gradient(180deg, #e9f3fc 0%, #d0e3fc 100%);
-  padding: 60px 0;
+  background-color: var(--navy);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  position: relative;
   overflow: hidden;
+}
+
+/* subtle radial glow */
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -200px; right: -200px;
+  width: 700px; height: 700px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(201,168,76,0.07) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: -100px; left: -100px;
+  width: 500px; height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(44,85,181,0.15) 0%, transparent 70%);
+  pointer-events: none;
 }
 
 .hero-content {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
   align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 30px;
+  padding-top: 100px;
+  padding-bottom: 100px;
+  position: relative;
+  z-index: 1;
 }
 
-.hero-text {
-  max-width: 600px;
-  position: relative;
-  z-index: 2;
-  will-change: transform;
-  transition: transform 0.2s ease-out;
+.hero-eyebrow {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 24px;
 }
 
 .hero-text h1 {
-  font-size: 42px;
-  font-weight: 900;
-  margin-bottom: 12px;
-  line-height: 1.2;
-  color: #1f3c88;
-  text-shadow: 1px 1px 4px rgba(44, 102, 184, 0.3);
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.8rem, 5.5vw, 4.8rem);
+  font-weight: 400;
+  color: var(--white);
+  line-height: 1.1;
+  margin-bottom: 24px;
+}
+
+.hero-text h1 em {
+  font-style: italic;
+  color: var(--gold-light);
 }
 
 .hero-text p {
-  font-size: 18px;
-  margin-bottom: 24px;
-  color: #344e89cc;
-  line-height: 1.5;
+  font-size: 1rem;
+  font-weight: 300;
+  color: rgba(255,255,255,0.6);
+  line-height: 1.85;
+  max-width: 440px;
+  margin-bottom: 40px;
 }
 
-#typing-text {
-  border-right: 3px solid #2c66b8;
-  white-space: nowrap;
-  overflow: hidden;
-  display: inline-block;
-  font-weight: 800;
-  font-size: 42px;
-  color: #1f3c88;
-  animation: blinkCaret 1.2s step-end infinite;
-}
-
-@keyframes blinkCaret {
-  0%, 50%, 100% { border-color: #2c66b8; }
-  25%, 75% { border-color: transparent; }
-}
-
-.search-form {
+/* CTA Buttons */
+.hero-buttons {
   display: flex;
-  max-width: 380px;
-  background: white;
-  border-radius: 12px;
-  overflow: hidden;
-  border: 2px solid #2c66b8;
-  box-shadow: 0 6px 15px rgba(44, 102, 184, 0.15);
-  transition: box-shadow 0.3s ease;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 56px;
 }
 
-.search-form:hover {
-  box-shadow: 0 8px 25px rgba(44, 102, 184, 0.3);
+.btn-hero-primary {
+  display: inline-block;
+  background: var(--gold);
+  color: var(--navy);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 14px 32px;
+  border-radius: 2px;
+  transition: background 0.25s, transform 0.2s;
 }
 
-.search-form input {
-  flex: 1;
-  border: none;
-  padding: 12px 16px;
-  font-size: 15px;
+.btn-hero-primary:hover {
+  background: var(--gold-light);
+  transform: translateY(-2px);
+}
+
+.btn-hero-secondary {
+  display: inline-block;
+  border: 1px solid rgba(201,168,76,0.4);
+  color: rgba(255,255,255,0.8);
+  font-size: 0.82rem;
   font-weight: 500;
-  color: #2c66b8;
-  outline-offset: 4px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 14px 32px;
+  border-radius: 2px;
+  transition: border-color 0.25s, color 0.25s, transform 0.2s;
 }
 
-.search-form input::placeholder {
-  color: #a0b7d8;
+.btn-hero-secondary:hover {
+  border-color: var(--gold);
+  color: var(--gold-light);
+  transform: translateY(-2px);
 }
 
-.search-form button {
-  background-color: #2c66b8;
-  color: white;
-  border: none;
-  padding: 12px 24px;
-  cursor: pointer;
+/* Hero stats */
+.hero-stats {
+  display: flex;
+  gap: 40px;
+}
+
+.hero-stats .stat-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.hero-stats .stat-number {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.9rem;
   font-weight: 700;
-  letter-spacing: 0.5px;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-  font-size: 14px;
+  color: var(--white);
+  line-height: 1;
 }
 
-.search-form button:hover {
-  background-color: #1a4580;
-  transform: scale(1.08);
-  box-shadow: 0 6px 15px rgba(26, 69, 128, 0.4);
+.hero-stats .stat-label {
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.4);
+}
+
+/* Hero image */
+.hero-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .hero-image img {
-  max-width: 380px;
-  width: 100%;
-  margin-left: 30px;
-  border-radius: 16px;
-  box-shadow: 0 12px 30px rgba(44, 102, 184, 0.15);
-  transition: transform 0.4s ease-in-out, box-shadow 0.4s ease;
-  will-change: transform;
-  cursor: pointer;
-}
-
-.hero-image img:hover {
-  transform: scale(1.05) rotate(1.2deg);
-  box-shadow: 0 20px 40px rgba(44, 102, 184, 0.3);
-}
-
-.cards-section {
-  padding: 60px 0;
-  background: #f7fbff;
-}
-
-.cards-container {
-  display: flex;
-  gap: 24px;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.card {
-  background-color: white;
-  border-radius: 20px;
-  padding: 24px 20px;
-  box-shadow: 0 6px 16px rgba(31, 60, 136, 0.1);
-  flex: 1 1 300px;
-  max-width: 280px;
-  text-align: center;
-  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-  cursor: pointer;
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.buku-section {
-  padding: 50px 0;
-  background-color: #f9f9f9;
-}
-
-.buku-section h2 {
-  text-align: center;
-  font-size: 1.8rem;
-  margin-bottom: 30px;
-  color: #333;
-}
-
-.buku-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 20px;
-  padding: 0 20px;
-}
-
-.buku-card {
-  background: #fff;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-  padding: 14px;
-  text-align: center;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  opacity: 0;
-  transform: translateY(40px);
-}
-
-.buku-card img {
   max-width: 100%;
-  height: 160px;
-  object-fit: cover;
-  border-radius: 8px;
-  margin-bottom: 12px;
+  max-height: 500px;
+  object-fit: contain;
+  filter: drop-shadow(0 32px 64px rgba(0,0,0,0.5));
 }
 
-.buku-card h4 {
-  font-size: 1rem;
-  margin: 8px 0;
-  color: #333;
+.hero-image img.floating {
+  animation: float 5s ease-in-out infinite;
 }
 
-.buku-card small {
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-18px); }
+}
+
+/* ============ BUKU SECTION ============ */
+.buku-section {
+  padding: 100px 0;
+  background: var(--white);
+  overflow: hidden;
+}
+
+.buku-section .container {
+  margin-bottom: 0;
+}
+
+.buku-section .section-eyebrow {
   display: block;
-  color: #777;
-  margin-bottom: 4px;
+  padding: 0 40px;
 }
 
-.buku-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+.buku-section .section-title-main {
+  padding: 0 40px;
+  margin-bottom: 48px;
 }
 
-.buku-card {
-  opacity: 1 !important;
-  transform: none !important;
-}
-
+/* Auto-scroll strip */
 .buku-scroll-wrapper {
   overflow: hidden;
   position: relative;
 }
 
+.buku-scroll-wrapper::before,
+.buku-scroll-wrapper::after {
+  content: '';
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 100px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.buku-scroll-wrapper::before {
+  left: 0;
+  background: linear-gradient(to right, var(--white), transparent);
+}
+
+.buku-scroll-wrapper::after {
+  right: 0;
+  background: linear-gradient(to left, var(--white), transparent);
+}
+
 .buku-scroll {
   display: flex;
-  gap: 1rem;
-  animation: scrollBuku 60s linear infinite;
+  gap: 24px;
+  padding: 8px 40px 24px;
+  animation: scrollLeft 40s linear infinite;
+  width: max-content;
+}
+
+.buku-scroll:hover {
+  animation-play-state: paused;
+}
+
+@keyframes scrollLeft {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 }
 
 .buku-card {
-  flex: 0 0 auto;
-  width: 200px;
-  padding: 1rem;
-  background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
-  text-align: center;
-  transition: transform 0.3s;
+  flex: 0 0 200px;
+  background: var(--cream);
+  border: 1px solid var(--cream-dark);
+  border-radius: 4px;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.buku-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 40px rgba(13,31,78,0.12);
 }
 
 .buku-card img {
   width: 100%;
-  height: 200px;
+  height: 260px;
   object-fit: cover;
-  border-radius: 8px;
+  display: block;
 }
 
-@keyframes scrollBuku {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
+.buku-card-info {
+  padding: 16px;
 }
 
-.card:hover {
-  transform: translateY(-18px) scale(1.07);
-  box-shadow: 0 14px 35px rgba(31, 60, 136, 0.3);
-}
-
-.card h3 {
-  margin-bottom: 14px;
-  color: #1f3c88;
+.buku-card-info h4 {
+  font-family: 'Playfair Display', serif;
+  font-size: 0.95rem;
   font-weight: 700;
-  font-size: 20px;
-  text-transform: uppercase;
-  letter-spacing: 1.1px;
+  color: var(--navy);
+  margin-bottom: 4px;
+  line-height: 1.3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.card p {
-  color: #555;
-  font-size: 15px;
-  line-height: 1.5;
+.buku-card-info p {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  font-weight: 300;
+  margin-bottom: 8px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.buku-kategori {
+  display: inline-block;
+  font-size: 0.67rem;
   font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold);
+  border: 1px solid rgba(201,168,76,0.35);
+  padding: 3px 8px;
+  border-radius: 2px;
 }
 
-.kategori-section {
-  background-image: url('../img/bg-parallax.gif');
-  background-attachment: fixed;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  padding: 80px 0;
-  text-align: center;
-  position: relative;
-  z-index: 1;
-  overflow: hidden;
-}
-
-.kategori-section::before {
-  content: "";
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background-color: rgba(255, 255, 255, 0.22);
-  z-index: 1;
-  backdrop-filter: saturate(150%) blur(5px);
-}
-
-.kategori-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 22px;
-  max-width: 800px;
-  margin: 0 auto;
-  position: relative;
-  z-index: 2;
-}
-
-.kategori-card {
-  background-color: white;
-  padding: 24px 18px;
-  border-radius: 14px;
-  box-shadow: 0 6px 18px rgba(31, 60, 136, 0.15);
-  font-weight: 700;
-  color: #2c66b8;
-  cursor: pointer;
-  transition: background-color 0.4s ease, color 0.4s ease, transform 0.3s ease;
-  animation: floatCard 4.5s ease-in-out infinite;
-  opacity: 1;
-  transform: translateY(0);
-  user-select: none;
-  font-size: 14px;
-}
-
-.kategori-card:hover {
-  background-color: #2c66b8;
-  color: white;
-  transform: translateY(-8px) scale(1.05);
-  box-shadow: 0 10px 28px rgba(44, 102, 184, 0.5);
-}
-
-@keyframes floatCard {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
-}
-
+/* ============ EDUKASI ============ */
 .edukasi-section {
-  position: relative;
-  padding: 60px 20px;
-  background-image: url('../img/backgroundz.gif'); /* Ganti dengan path GIF kamu */
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  text-align: center;
-  z-index: 1;
-  overflow: hidden;
+  padding: 120px 0;
+  background: var(--cream);
 }
 
-.edukasi-section::before {
-  content: "";
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  z-index: 1;
-  backdrop-filter: blur(4px);
+.edukasi-section .section-eyebrow {
+  display: block;
 }
 
-.edukasi-section h2 {
-  position: relative;
-  color: #0b1d49;
-  margin-bottom: 40px;
-  font-size: 32px;
-  font-weight: 900;
-  letter-spacing: 1.2px;
-  z-index: 2;
+.edukasi-section .section-title-main {
+  max-width: 480px;
 }
 
 .edukasi-content {
-  display: flex;
-  gap: 28px;
-  max-width: 900px;
-  margin: 0 auto;
-  flex-wrap: wrap;
-  justify-content: center;
-  position: relative;
-  z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  margin-top: 0;
 }
 
 .edukasi-content article {
-  flex: 1 1 300px;
-  background: linear-gradient(135deg, #e9f3fc, #cfdff9);
-  border-radius: 16px;
-  padding: 24px 20px 20px;
-  box-shadow: 0 6px 18px rgba(31, 60, 136, 0.12);
-  text-align: left;
-  transition: transform 0.4s ease, box-shadow 0.3s ease;
-  cursor: default;
-  opacity: 0;
-  transform: translateY(40px);
-  user-select: none;
+  background: var(--white);
+  border: 1px solid var(--cream-dark);
+  padding: 48px 40px;
   position: relative;
-  overflow: hidden;
+  transition: border-color 0.3s ease, transform 0.3s ease;
 }
 
 .edukasi-content article::before {
-  content: "";
-  display: block;
-  width: 48px;
-  height: 48px;
-  background: url('../img/edu-icon1.svg') no-repeat center;
-  background-size: contain;
-  margin-bottom: 16px;
-  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
-}
-
-.edukasi-content h3 {
-  color: #1f3c88;
-  margin-bottom: 16px;
-  font-weight: 800;
-  font-size: 20px;
-  border-bottom: 2px solid #2c66b8;
-  display: inline-block;
-  padding-bottom: 6px;
-}
-
-.edukasi-content p {
-  color: #444;
-  font-size: 15px;
-  line-height: 1.55;
-}
-
-.edukasi-content article.show {
-  opacity: 1;
-  transform: translateY(0);
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 3px; height: 0;
+  background: var(--gold);
+  transition: height 0.4s ease;
 }
 
 .edukasi-content article:hover {
-  transform: translateY(-12px) scale(1.02);
-  box-shadow: 0 14px 35px rgba(31, 60, 136, 0.25);
+  border-color: rgba(201,168,76,0.3);
+  transform: translateY(-4px);
 }
 
-.hero-profile-card {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 1rem;
+.edukasi-content article:hover::before {
+  height: 100%;
 }
 
-/* Enhanced Mobile Responsive Styles */
-
-/* Large screens */
-@media screen and (max-width: 1200px) {
-  .container {
-    padding: 15px;
-  }
-  
-  .hero-text h1, #typing-text {
-    font-size: 38px;
-  }
-  
-  .kategori-grid {
-    max-width: 700px;
-  }
+.edukasi-content article h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.3rem;
+  font-weight: 400;
+  color: var(--navy);
+  margin-bottom: 16px;
 }
 
-/* Tablets */
-@media screen and (max-width: 992px) {
-  .hero {
-    padding: 40px 0;
-  }
-  
+.edukasi-content article p {
+  font-size: 0.92rem;
+  line-height: 1.8;
+  color: var(--text-body);
+  font-weight: 300;
+}
+
+/* ============ RESPONSIVE ============ */
+@media (max-width: 960px) {
   .hero-content {
-    gap: 20px;
-  }
-  
-  .hero-text h1, #typing-text {
-    font-size: 34px;
-  }
-  
-  .hero-image img {
-    max-width: 320px;
-    margin-left: 15px;
-  }
-  
-  .cards-container {
-    gap: 20px;
-  }
-  
-  .card {
-    flex: 1 1 250px;
-    max-width: 300px;
-  }
-  
-  .buku-grid {
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 15px;
-  }
-  
-  .edukasi-content {
-    gap: 20px;
-  }
-  
-  .kategori-section {
-    padding: 60px 0;
-    background-attachment: scroll; /* Fix parallax on tablets */
-  }
-  
-  .kategori-grid {
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    gap: 18px;
-  }
-}
-
-/* Mobile devices */
-@media screen and (max-width: 768px) {
-  .container {
-    padding: 10px 15px;
-  }
-  
-  .logo-text {
-    font-size: 20px;
-  }
-  
-  .logo-img {
-    height: 32px;
-  }
-
-  .main-header .container,
-  .hero-content,
-  .cards-container,
-  .edukasi-content {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .hero {
-    padding: 30px 0;
-  }
-
-  .hero-text {
+    grid-template-columns: 1fr;
     text-align: center;
-    max-width: 100%;
+    gap: 48px;
   }
 
-  .hero-text h1, #typing-text {
-    font-size: 28px;
-    line-height: 1.3;
-  }
+  .hero-text p { max-width: 100%; margin-left: auto; margin-right: auto; }
+  .hero-buttons { justify-content: center; }
+  .hero-stats { justify-content: center; }
+  .hero-image { display: none; }
 
-  .hero-text p {
-    font-size: 16px;
-    padding: 0 10px;
-  }
-
-  .hero-image img {
-    margin-left: 0;
-    margin-top: 20px;
-    max-width: 280px;
-  }
-
-  .search-form {
-    max-width: 100%;
-    width: 100%;
-    margin: 0 15px;
-  }
-  
-  .search-form input {
-    font-size: 14px;
-    padding: 10px 12px;
-  }
-  
-  .search-form button {
-    padding: 10px 18px;
-    font-size: 13px;
-  }
-
-  .cards-section {
-    padding: 40px 0;
-  }
-
-  .cards-container {
-    gap: 15px;
-    padding: 0 10px;
-  }
-
-  .card {
-    flex: 1 1 100%;
-    max-width: 100%;
-    margin: 0 10px;
-  }
-  
-  .card h3 {
-    font-size: 18px;
-  }
-  
-  .card p {
-    font-size: 14px;
-  }
-
-  .buku-section {
-    padding: 30px 0;
-  }
-
-  .buku-section h2 {
-    font-size: 1.5rem;
-    padding: 0 15px;
-  }
-
-  .buku-grid {
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 12px;
-    padding: 0 15px;
-  }
-  
-  .buku-card {
-    padding: 10px;
-  }
-  
-  .buku-card img {
-    height: 120px;
-  }
-  
-  .buku-card h4 {
-    font-size: 0.9rem;
-  }
-
-  .kategori-section {
-    padding: 40px 0;
-    background-attachment: scroll;
-  }
-
-  .kategori-grid {
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: 12px;
-    padding: 0 15px;
-  }
-  
-  .kategori-card {
-    padding: 18px 12px;
-    font-size: 13px;
-  }
-
-  .edukasi-section {
-    padding: 40px 15px;
-  }
-
-  .edukasi-section h2 {
-    font-size: 26px;
-    margin-bottom: 30px;
-  }
-
-  .edukasi-content {
-    gap: 20px;
-  }
-  
-  .edukasi-content article {
-    flex: 1 1 100%;
-    padding: 18px;
-  }
-  
-  .edukasi-content h3 {
-    font-size: 18px;
-  }
-  
-  .edukasi-content p {
-    font-size: 14px;
-  }
+  .edukasi-content { grid-template-columns: 1fr; }
 }
 
-/* Small mobile devices */
-@media screen and (max-width: 480px) {
-  .hero-text h1, #typing-text {
-    font-size: 24px;
-  }
-  
-  .hero-text p {
-    font-size: 15px;
-  }
-  
-  .hero-image img {
-    max-width: 250px;
-  }
-  
-  .search-form {
-    margin: 0 10px;
-  }
-  
-  .cards-container {
-    padding: 0 5px;
-  }
-  
-  .card {
-    margin: 0 5px;
-    padding: 20px 15px;
-  }
-  
-  .buku-grid {
-    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-    gap: 10px;
-    padding: 0 10px;
-  }
-  
-  .buku-card img {
-    height: 100px;
-  }
-  
-  .kategori-grid {
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-    gap: 10px;
-    padding: 0 10px;
-  }
-  
-  .kategori-card {
-    padding: 15px 8px;
-    font-size: 12px;
-  }
-  
-  .edukasi-section {
-    padding: 30px 10px;
-  }
-  
-  .edukasi-section h2 {
-    font-size: 22px;
-  }
-  
-  .edukasi-content article {
-    padding: 15px;
-  }
-}
+@media (max-width: 640px) {
+  .container { padding: 0 24px; }
 
-/* iPhone XR and similar sized devices (414px - 428px) */
-@media screen and (min-width: 390px) and (max-width: 428px) {
-  .container {
-    padding: 12px 18px;
-  }
-  
-  .hero {
-    padding: 35px 0;
-  }
-  
-  .hero-text h1, #typing-text {
-    font-size: 30px;
-    line-height: 1.25;
-    margin-bottom: 16px;
-  }
-  
-  .hero-text p {
-    font-size: 17px;
-    margin-bottom: 20px;
-    padding: 0 12px;
-  }
-  
-  .hero-image img {
-    max-width: 320px;
-    margin-top: 25px;
-  }
-  
-  .search-form {
-    max-width: 350px;
-    margin: 0 20px;
-  }
-  
-  .search-form input {
-    padding: 12px 14px;
-    font-size: 15px;
-  }
-  
-  .search-form button {
-    padding: 12px 20px;
-    font-size: 14px;
-  }
-  
-  .cards-section {
-    padding: 45px 0;
-  }
-  
-  .cards-container {
-    gap: 18px;
-    padding: 0 15px;
-  }
-  
-  .card {
-    max-width: 340px;
-    margin: 0 15px;
-    padding: 22px 18px;
-  }
-  
-  .card h3 {
-    font-size: 19px;
-    margin-bottom: 12px;
-  }
-  
-  .card p {
-    font-size: 15px;
-  }
-  
-  .buku-section {
-    padding: 35px 0;
-  }
-  
-  .buku-section h2 {
-    font-size: 1.6rem;
-    margin-bottom: 25px;
-    padding: 0 18px;
-  }
-  
-  .buku-grid {
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-    gap: 14px;
-    padding: 0 18px;
-  }
-  
-  .buku-card {
-    padding: 12px;
-  }
-  
-  .buku-card img {
-    height: 140px;
-  }
-  
-  .buku-card h4 {
-    font-size: 0.95rem;
-    margin: 10px 0 6px 0;
-  }
-  
-  .kategori-section {
-    padding: 45px 0;
-    background-attachment: scroll;
-  }
-  
-  .kategori-grid {
-    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-    gap: 15px;
-    padding: 0 18px;
-    max-width: 380px;
-  }
-  
-  .kategori-card {
-    padding: 20px 14px;
-    font-size: 13.5px;
-    border-radius: 12px;
-  }
-  
-  .edukasi-section {
-    padding: 45px 18px;
-  }
-  
-  .edukasi-section h2 {
-    font-size: 28px;
-    margin-bottom: 35px;
-  }
-  
-  .edukasi-content {
-    gap: 22px;
-    max-width: 370px;
-  }
-  
-  .edukasi-content article {
-    padding: 20px 18px;
-    border-radius: 14px;
-  }
-  
-  .edukasi-content h3 {
-    font-size: 19px;
-    margin-bottom: 14px;
-  }
-  
-  .edukasi-content p {
-    font-size: 15px;
-    line-height: 1.6;
-  }
-  
-  /* Navigation adjustments for iPhone XR */
-  .nav-list {
-    gap: 15px;
-  }
-  
-  .nav-list a {
-    padding: 8px 12px;
-    font-size: 14px;
-  }
-  
-  .dropdown-menu {
-    min-width: 180px;
-  }
-}
+  .hero-content { padding-top: 80px; padding-bottom: 80px; }
 
-/* Extra small devices */
-@media screen and (max-width: 360px) {
-  .hero-text h1, #typing-text {
-    font-size: 22px;
-  }
-  
-  .hero-image img {
-    max-width: 220px;
-  }
-  
-  .buku-grid {
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-  }
-  
-  .kategori-grid {
-    grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
-  }
-  
-  .edukasi-section h2 {
-    font-size: 20px;
-  }
-}
+  .hero-stats { gap: 24px; flex-wrap: wrap; justify-content: center; }
 
-/* Landscape orientation for mobile */
-@media screen and (max-height: 500px) and (orientation: landscape) {
-  .hero {
-    padding: 20px 0;
-  }
-  
-  .hero-text h1, #typing-text {
-    font-size: 24px;
-  }
-  
-  .hero-text p {
-    font-size: 14px;
-    margin-bottom: 15px;
-  }
-  
-  .hero-image img {
-    max-width: 200px;
-    margin-top: 10px;
-  }
-  
-  .cards-section,
   .buku-section,
-  .kategori-section,
-  .edukasi-section {
-    padding: 25px 0;
-  }
-}
+  .edukasi-section { padding: 72px 0; }
 
-/* iPhone XR landscape mode */
-@media screen and (min-width: 736px) and (max-width: 896px) and (orientation: landscape) {
-  .hero-content {
-    flex-direction: row;
-    justify-content: space-between;
-    gap: 20px;
-  }
-  
-  .hero-text {
-    max-width: 45%;
-    text-align: left;
-  }
-  
-  .hero-text h1, #typing-text {
-    font-size: 26px;
-  }
-  
-  .hero-text p {
-    font-size: 15px;
-    padding: 0;
-  }
-  
-  .hero-image {
-    max-width: 45%;
-  }
-  
-  .hero-image img {
-    max-width: 100%;
-    margin-left: 0;
-    margin-top: 0;
-  }
-  
-  .search-form {
-    max-width: 280px;
-    margin: 0;
-  }
-}
+  .buku-section .section-eyebrow,
+  .buku-section .section-title-main { padding: 0 24px; }
 
-/* Remove hover effects on touch devices */
-@media (hover: none) and (pointer: coarse) {
-  .card:hover,
-  .buku-card:hover,
-  .kategori-card:hover,
-  .edukasi-content article:hover,
-  .hero-image img:hover,
-  .search-form button:hover {
-    transform: none;
-    box-shadow: initial;
-    background-color: initial;
-    color: initial;
-  }
-  
-  .search-form:hover {
-    box-shadow: 0 6px 15px rgba(44, 102, 184, 0.15);
-  }
+  .edukasi-content article { padding: 32px 24px; }
 }

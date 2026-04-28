@@ -9,7 +9,6 @@ include '../config/config.php';
 
 $id_user = $_SESSION['user_id'];
 
-// Ambil kategori user
 $userRes = mysqli_query($conn, "SELECT kategori FROM users WHERE id_user = '$id_user'");
 $user = mysqli_fetch_assoc($userRes);
 $kategori = strtolower($user['kategori'] ?? '');
@@ -48,7 +47,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajukan'])) {
         if (mysqli_num_rows($checkDupe) > 0) {
             $prev = mysqli_fetch_assoc($checkDupe)['jumlah'];
             $newQty = $prev + $qty;
-
             if ($total - $prev + $newQty > $MAX_PINJAM) {
                 $message = "<span style='color:red;'>Pengajuan gagal: melebihi batas $MAX_PINJAM buku.</span>";
             } else {
@@ -70,10 +68,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajukan'])) {
     }
 }
 
-// Pencarian & pagination
 $keyword = $_GET['search'] ?? '';
 $page = isset($_GET['page']) ? max(1, (int)$_GET['page']) : 1;
-$limit = 5;
+$limit = 10;
 $offset = ($page - 1) * $limit;
 
 $sqlTotal = "SELECT COUNT(*) AS total FROM buku WHERE judul LIKE '%" . mysqli_real_escape_string($conn, $keyword) . "%'";
@@ -88,59 +85,123 @@ $booksRes = mysqli_query($conn, $sqlBuku);
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <title>Daftar Buku</title>
-    <link rel="stylesheet" href="../assets/css/daftar_buku.css">
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daftar Buku — Litera</title>
+  <link rel="icon" href="assets/img/favicon-32x32.png" />
+  <link rel="stylesheet" href="assets/css/header.css">
+  <link rel="stylesheet" href="assets/css/daftar_buku.css">
+  <link rel="stylesheet" href="assets/css/footer.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="assets/js/header.js" defer></script>
 </head>
 <body>
+  <?php include 'partials/header.php'; ?>
 
-<div class="container">
-    <h2>Daftar Buku</h2>
-    <form method="get" class="search-form">
-        <input type="text" name="search" value="<?= htmlspecialchars($keyword) ?>" placeholder="Cari buku...">
-        <button type="submit">Cari</button>
-    </form>
+  <section class="buku-section">
+    <div class="container">
 
-    <?php if (isset($_SESSION['message'])): ?>
+      <p class="page-subtitle">Koleksi Perpustakaan Digital</p>
+      <h1 class="page-title">Daftar Buku</h1>
+
+      <!-- Filter -->
+      <div class="filters-container">
+        <form method="get">
+          <div class="filters-row">
+            <div class="filter-group">
+              <label for="search">Cari Judul Buku</label>
+              <input type="text" id="search" name="search"
+                     value="<?= htmlspecialchars($keyword) ?>"
+                     placeholder="Ketik judul buku...">
+            </div>
+            <div class="filter-group">
+              <!-- kosong, bisa tambah filter kategori di sini -->
+            </div>
+            <div class="filter-buttons">
+              <button type="submit" class="btn btn-primary">Cari</button>
+              <a href="daftar_buku.php" class="btn btn-secondary">Reset</a>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <!-- Message -->
+      <?php if (!empty($message)): ?>
+        <p class="message"><?= $message ?></p>
+      <?php endif; ?>
+      <?php if (isset($_SESSION['message'])): ?>
         <p class="message"><?= $_SESSION['message'] ?></p>
         <?php unset($_SESSION['message']); ?>
-    <?php endif; ?>
+      <?php endif; ?>
 
-    <ul class="buku-grid">
-        <?php while ($b = mysqli_fetch_assoc($booksRes)): ?>
+      <!-- Results info -->
+      <div class="results-info">
+        <p>
+          <?php if ($keyword): ?>
+            Menampilkan <strong><?= $totalData ?></strong> hasil untuk "<em><?= htmlspecialchars($keyword) ?></em>"
+          <?php else: ?>
+            Menampilkan <strong><?= $totalData ?></strong> koleksi buku
+          <?php endif; ?>
+        </p>
+      </div>
+
+      <!-- Books Grid -->
+      <?php if ($totalData > 0): ?>
+        <ul class="buku-grid">
+          <?php while ($b = mysqli_fetch_assoc($booksRes)): ?>
             <li class="buku-card">
-                <img src="../uploads/<?= htmlspecialchars($b['gambar'] ?: 'no-image.png') ?>" alt="<?= htmlspecialchars($b['judul']) ?>">
-                <div class="buku-info">
-                    <h3><?= htmlspecialchars($b['judul']) ?></h3>
-                    <p><?= htmlspecialchars($b['penulis']) ?></p>
-                    <p>Stok: <?= $b['stok'] ?></p>
-                    <?php if ($b['stok'] > 0): ?>
-                        <form class="ajukan-form" method="get" onsubmit="return confirm('Ajukan buku ini?');">
-                            <input type="hidden" name="search" value="<?= htmlspecialchars($keyword) ?>">
-                            <input type="hidden" name="page" value="<?= $page ?>">
-                            <input type="hidden" name="ajukan" value="<?= $b['id_buku'] ?>">
-                            <?php if ($kategori === 'pengajar'): ?>
-                                <label>Qty:</label>
-                                <input type="number" name="qty" min="1" max="<?= $b['stok'] ?>" value="1" required>
-                            <?php endif; ?>
-                            <button type="submit">Ajukan</button>
-                        </form>
-                    <?php else: ?>
-                        <span style="color:red;">Stok habis</span>
+              <img src="uploads/<?= htmlspecialchars($b['gambar'] ?: 'no-image.png') ?>"
+                   alt="<?= htmlspecialchars($b['judul']) ?>">
+              <div class="buku-info">
+                <span class="kategori"><?= htmlspecialchars($b['nama_kategori']) ?></span>
+                <h3><?= htmlspecialchars($b['judul']) ?></h3>
+                <p><?= htmlspecialchars($b['penulis']) ?></p>
+                <p>Stok: <strong><?= $b['stok'] ?></strong></p>
+
+                <?php if ($b['stok'] > 0): ?>
+                  <form class="ajukan-form" method="post"
+                        onsubmit="return confirm('Ajukan buku ini?');">
+                    <input type="hidden" name="ajukan" value="<?= $b['id_buku'] ?>">
+                    <?php if ($kategori === 'pengajar'): ?>
+                      <label>Jumlah</label>
+                      <input type="number" name="qty" min="1"
+                             max="<?= $b['stok'] ?>" value="1" required>
                     <?php endif; ?>
-                </div>
+                    <button type="submit">Ajukan Buku</button>
+                  </form>
+                <?php else: ?>
+                  <span class="stok-habis">Stok Habis</span>
+                <?php endif; ?>
+              </div>
             </li>
-        <?php endwhile; ?>
-    </ul>
+          <?php endwhile; ?>
+        </ul>
+      <?php else: ?>
+        <div class="empty-state">
+          <h3>Buku tidak ditemukan</h3>
+          <p>Coba kata kunci yang berbeda atau <a href="daftar_buku.php">lihat semua koleksi</a>.</p>
+        </div>
+      <?php endif; ?>
 
-    <div class="pagination">
-        <?php for ($i = 1; $i <= $totalPages; $i++): ?>
-            <a class="page-link <?= $i === $page ? 'active' : '' ?>" href="?search=<?= urlencode($keyword) ?>&page=<?= $i ?>"><?= $i ?></a>
-        <?php endfor; ?>
+      <!-- Pagination -->
+      <?php if ($totalPages > 1): ?>
+        <div class="pagination">
+          <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+            <a href="?search=<?= urlencode($keyword) ?>&page=<?= $i ?>"
+               class="<?= $i === $page ? 'active' : '' ?>"><?= $i ?></a>
+          <?php endfor; ?>
+        </div>
+      <?php endif; ?>
+
+      <div class="back-link">
+        <a href="index.php">&larr; Kembali ke Beranda</a>
+      </div>
+
     </div>
+  </section>
 
-    <p><a href="index.php">&laquo; Kembali ke Beranda</a></p>
-</div>
+  <?php include 'partials/footer.php'; ?>
+
 </body>
 </html>

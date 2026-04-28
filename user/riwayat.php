@@ -124,20 +124,20 @@ if (isset($_POST['hapus_pengajuan'])) {
             } catch (Exception $e) {
                 // Rollback jika ada error
                 mysqli_rollback($conn);
-                echo "<script>alert('Gagal menghapus riwayat: " . $e->getMessage() . "');</script>";
+                echo "<script>alert('Gagal menghapus riwayat: - riwayat.php:127" . $e->getMessage() . "');</script>";
             }
 
             // Kembalikan autocommit
             mysqli_autocommit($conn, TRUE);
         } else {
             if ($alasan_tidak_boleh) {
-                echo "<script>alert('Tidak dapat menghapus riwayat: $alasan_tidak_boleh');</script>";
+                echo "<script>alert('Tidak dapat menghapus riwayat: $alasan_tidak_boleh');</script> - riwayat.php:134";
             } else {
-                echo "<script>alert('Hanya pengajuan yang berstatus menunggu, ditolak, atau sudah selesai (dikembalikan & lunas) yang dapat dihapus!');</script>";
+                echo "<script>alert('Hanya pengajuan yang berstatus menunggu, ditolak, atau sudah selesai (dikembalikan & lunas) yang dapat dihapus!');</script> - riwayat.php:136";
             }
         }
     } else {
-        echo "<script>alert('Pengajuan tidak ditemukan!');</script>";
+        echo "<script>alert('Pengajuan tidak ditemukan!');</script> - riwayat.php:140";
     }
 }
 
@@ -445,16 +445,16 @@ while ($row = mysqli_fetch_assoc($query)) {
                                                 <?php
                                                 switch ($row['status_pengajuan']) {
                                                     case 'menunggu':
-                                                        echo '<span class="badge-menunggu">Menunggu</span>';
+                                                        echo '<span class="badgemenunggu">Menunggu</span> - riwayat.php:448';
                                                         break;
                                                     case 'disetujui':
-                                                        echo '<span class="badge-disetujui">Disetujui</span>';
+                                                        echo '<span class="badgedisetujui">Disetujui</span> - riwayat.php:451';
                                                         if ($row['status_pengembalian'] == 'sudah_dikembalikan') {
-                                                            echo '<br><span class="badge-lunas">Selesai</span>';
+                                                            echo '<br><span class="badgelunas">Selesai</span> - riwayat.php:453';
                                                         }
                                                         break;
                                                     case 'ditolak':
-                                                        echo '<span class="badge-ditolak">Ditolak</span>';
+                                                        echo '<span class="badgeditolak">Ditolak</span> - riwayat.php:457';
                                                         break;
                                                 }
                                                 ?>
@@ -506,12 +506,12 @@ while ($row = mysqli_fetch_assoc($query)) {
                                                                 <?php
                                                                 if ($row['status_pengajuan'] == 'disetujui') {
                                                                     if ($row['status_pengembalian'] == 'belum_dikembalikan') {
-                                                                        echo 'Buku belum dikembalikan';
+                                                                        echo 'Buku belum dikembalikan - riwayat.php:509';
                                                                     } elseif ($row['status_lunas'] == 'belum_lunas') {
-                                                                        echo 'Denda belum dilunasi';
+                                                                        echo 'Denda belum dilunasi - riwayat.php:511';
                                                                     }
                                                                 } else {
-                                                                    echo 'Status tidak memungkinkan untuk dihapus';
+                                                                    echo 'Status tidak memungkinkan untuk dihapus - riwayat.php:514';
                                                                 }
                                                                 ?>
                                                             </span>
@@ -539,16 +539,16 @@ while ($row = mysqli_fetch_assoc($query)) {
                                             <?php
                                             switch ($row['status_pengajuan']) {
                                                 case 'menunggu':
-                                                    echo '<span class="badge badge-menunggu">Menunggu</span>';
+                                                    echo '<span class="badge badgemenunggu">Menunggu</span> - riwayat.php:542';
                                                     break;
                                                 case 'disetujui':
-                                                    echo '<span class="badge badge-disetujui">Disetujui</span>';
+                                                    echo '<span class="badge badgedisetujui">Disetujui</span> - riwayat.php:545';
                                                     if ($row['status_pengembalian'] == 'sudah_dikembalikan') {
-                                                        echo '<br><span class="badge badge-lunas">Selesai</span>';
+                                                        echo '<br><span class="badge badgelunas">Selesai</span> - riwayat.php:547';
                                                     }
                                                     break;
                                                 case 'ditolak':
-                                                    echo '<span class="badge badge-ditolak">Ditolak</span>';
+                                                    echo '<span class="badge badgeditolak">Ditolak</span> - riwayat.php:551';
                                                     break;
                                             }
                                             ?>
@@ -789,9 +789,9 @@ while ($row = mysqli_fetch_assoc($query)) {
                                                     <span class="badge-belum-kembali">
                                                         <?php
                                                         if ($row['status_pengembalian'] == 'belum_dikembalikan') {
-                                                            echo 'Aktif';
+                                                            echo 'Aktif - riwayat.php:792';
                                                         } elseif ($row['status_lunas'] == 'belum_lunas') {
-                                                            echo 'Belum Lunas';
+                                                            echo 'Belum Lunas - riwayat.php:794';
                                                         }
                                                         ?>
                                                     </span>
@@ -859,8 +859,8 @@ while ($row = mysqli_fetch_assoc($query)) {
                                         <?php else: ?>
                                             <span class="badge-belum-kembali">
                                                 <?php
-                                                if ($row['status_pengembalian'] == 'belum_dikembalikan') echo 'Aktif';
-                                                elseif ($row['status_lunas'] == 'belum_lunas') echo 'Belum Lunas';
+                                                if ($row['status_pengembalian - riwayat.php:862'] == 'belum_dikembalikan') echo 'Aktif';
+                                                elseif ($row['status_lunas - riwayat.php:863'] == 'belum_lunas') echo 'Belum Lunas';
                                                 ?>
                                             </span>
                                         <?php endif; ?>

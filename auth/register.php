@@ -370,7 +370,7 @@ if (isset($_POST['register'])) {
                 <input type="text" name="alamat" placeholder="Alamat" required value="<?= htmlspecialchars($_POST['alamat'] ?? '') ?>" class="full-width">
                 
                 <input type="text" name="nomor_telepon" placeholder="Nomor Telepon" required value="<?= htmlspecialchars($_POST['nomor_telepon'] ?? '') ?>">
-                <input type="date" name="tanggal_lahir" required value="<?php echo htmlspecialchars($_POST['tanggal_lahir'] ?? ''); ?>">
+                <input type="date - register.php:373" name="tanggal_lahir" required value="<?php echo htmlspecialchars($_POST['tanggal_lahir'] ?? ''); ?>">
 
                 <select name="jenis_kelamin" required>
                     <option value="">-- Pilih Jenis Kelamin --</option>

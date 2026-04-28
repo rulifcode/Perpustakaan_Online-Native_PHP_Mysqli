@@ -5,91 +5,184 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Tentang Litera</title>
-  <link rel="icon" type="image/png" href="../assets/img/favicon-32x32.png" />
-  <link rel="stylesheet" href="../assets/css/tentang.css">
+  <link rel="icon" href="../assets/img/favicon-32x32.png" />
   <link rel="stylesheet" href="../assets/css/header.css">
+  <link rel="stylesheet" href="../assets/css/tentang.css">
+  <link rel="stylesheet" href="../assets/css/footer.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-  <script src="https://unpkg.com/scrollreveal"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
   <script src="../assets/js/header.js" defer></script>
-    <link rel="stylesheet" href="../assets/css/footer.css">
-  <script src="../assets/js/animasi.js" defer></script>
-  <script src="../assets/js/scroll.js" defer></script>
- 
 </head>
 <body>
   <?php include '../partials/header_user.php'; ?>
-<!-- SEJARAH -->
-<section class="sejarah-section">
-  <div class="container sejarah-container">
-    <div class="sejarah-text">
-      <h1>Litera</h1>
-      <p>Litera adalah platform perpustakaan digital yang mulai dikembangkan sejak tahun <strong>2025</strong>. Aplikasi ini dirancang oleh mahasiswa <strong>Universitas Sangga Buana YPKP</strong> untuk mendukung literasi modern melalui teknologi.</p>
-      <a href="#tim" class="btn-sejarah">Kenali Tim Kami</a>
+
+  <!-- HERO -->
+  <section class="hero-about">
+    <p class="hero-eyebrow">Platform Perpustakaan Digital</p>
+    <h1>Membaca adalah<br><em>perjalanan tanpa batas</em></h1>
+    <p>Litera hadir untuk mendekatkan buku kepada setiap pembaca Indonesia melalui teknologi yang sederhana, inklusif, dan bermakna.</p>
+    <div class="hero-divider"></div>
+  </section>
+
+<!-- STATS -->
+<section class="stats-bar">
+  <div class="stats-inner">
+
+    <div class="stat-item">
+      <div class="stat-number">2025</div>
+      <div class="stat-label">Mulai Dikembangkan</div>
     </div>
-    <div class="sejarah-image">
-      <img src="../assets/img/kampus1.jpg" alt="Sejarah Litera">
+
+    <div class="stat-item">
+      <div class="stat-number">1</div>
+      <div class="stat-label">Independent Developer</div>
+    </div>
+
+    <div class="stat-item">
+      <div class="stat-number">4+</div>
+      <div class="stat-label">Teknologi Digunakan</div>
+    </div>
+
+    <div class="stat-item">
+      <div class="stat-number">&#8734;</div>
+      <div class="stat-label">Potensi Koleksi Digital</div>
+    </div>
+
+  </div>
+</section>
+
+  <!-- STORY -->
+<section class="story-section">
+  <div class="story-inner">
+    <div class="story-text">
+      <p class="story-label">Kisah Kami</p>
+      <h2>Berawal dari minat<br>membangun literasi digital</h2>
+      <p><strong>Litera</strong> merupakan proyek pribadi berupa platform perpustakaan online yang mulai dikembangkan pada tahun 2025. Proyek ini dibuat sebagai upaya untuk menghadirkan akses bacaan digital yang praktis, fleksibel, dan dapat dijangkau oleh siapa saja.</p>
+      <p>Dengan memanfaatkan teknologi, Litera dirancang untuk memberikan pengalaman membaca yang mudah dan nyaman. Harapannya, platform ini dapat menjadi sarana sederhana untuk mendukung kebiasaan membaca serta memperluas akses literasi di era digital.</p>
+    </div>
+    <div class="story-image-wrap">
+     <img src="../assets/img/happy.gif" alt="Ilustrasi perpustakaan digital">
+      <div class="story-image-badge">
+        <div class="year">2025</div>
+        <div class="since">Since</div>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- MISI -->
-<section class="parallax mission-section" style="background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('../assets/img/baca2.jpg');">
-  <div class="content-box animate__animated animate__fadeInUp">
-    <div class="icon-box"><i class="fas fa-book-open"></i></div>
-    <h2 class="section-title">Misi Kami</h2>
-    <p class="section-description">Membawa buku ke setiap sudut negeri melalui teknologi digital.</p>
-    <div class="mission-points">
-      <div class="point"><i class="fas fa-mobile-alt"></i><span>Akses literasi digital untuk semua</span></div>
-      <div class="point"><i class="fas fa-globe-asia"></i><span>Jangkau seluruh wilayah Indonesia</span></div>
-      <div class="point"><i class="fas fa-heart"></i><span>Dibangun dengan passion untuk membaca</span></div>
+  <!-- VALUES -->
+  <section class="values-section">
+    <div class="values-header">
+      <p class="section-eyebrow">Visi &amp; Misi</p>
+      <h2>Nilai yang menjadi<br>landasan kami</h2>
     </div>
-    <a href="#tim" class="cta-button">Pelajari Lebih Lanjut</a>
+    <div class="values-grid">
+      <div class="value-card">
+        <svg class="value-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="8" y="6" width="22" height="30" rx="2" stroke="#c9a84c" stroke-width="1.5"/>
+          <rect x="18" y="6" width="22" height="30" rx="2" stroke="#c9a84c" stroke-width="1.5" fill="rgba(201,168,76,0.08)"/>
+          <line x1="22" y1="14" x2="36" y2="14" stroke="#c9a84c" stroke-width="1.5"/>
+          <line x1="22" y1="20" x2="36" y2="20" stroke="#c9a84c" stroke-width="1.5"/>
+          <line x1="22" y1="26" x2="30" y2="26" stroke="#c9a84c" stroke-width="1.5"/>
+        </svg>
+        <h3>Inklusif</h3>
+        <p>Akses literasi digital yang terbuka untuk semua kalangan, tanpa batasan geografi maupun latar belakang. Setiap orang berhak mendapatkan pengetahuan.</p>
+      </div>
+      <div class="value-card">
+        <svg class="value-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="24" cy="24" r="16" stroke="#c9a84c" stroke-width="1.5"/>
+          <circle cx="24" cy="24" r="6" stroke="#c9a84c" stroke-width="1.5" fill="rgba(201,168,76,0.1)"/>
+          <line x1="24" y1="8" x2="24" y2="14" stroke="#c9a84c" stroke-width="1.5"/>
+          <line x1="24" y1="34" x2="24" y2="40" stroke="#c9a84c" stroke-width="1.5"/>
+          <line x1="8" y1="24" x2="14" y2="24" stroke="#c9a84c" stroke-width="1.5"/>
+          <line x1="34" y1="24" x2="40" y2="24" stroke="#c9a84c" stroke-width="1.5"/>
+        </svg>
+        <h3>Edukatif</h3>
+        <p>Konten berkualitas tinggi yang dipilih dengan cermat untuk mendukung proses pembelajaran. Kami berkomitmen menjadi mitra belajar terpercaya.</p>
+      </div>
+      <div class="value-card">
+        <svg class="value-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <polyline points="8,32 18,20 26,28 38,14" stroke="#c9a84c" stroke-width="1.5" stroke-linejoin="round"/>
+          <polyline points="30,14 38,14 38,22" stroke="#c9a84c" stroke-width="1.5" stroke-linejoin="round"/>
+        </svg>
+        <h3>Inovatif</h3>
+        <p>Terus berkembang mengikuti kebutuhan pengguna dan perkembangan teknologi. Inovasi adalah napas kami dalam menghadirkan pengalaman membaca terbaik.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TEAM -->
+<section class="team-section" id="tim">
+  <div class="team-header">
+    
+    <!-- KIRI : TEXT -->
+    <div class="team-header-left">
+      <p class="section-eyebrow">Di Balik Litera</p>
+      <h2>Dibangun dengan<br>Teknologi Modern</h2>
+
+      <p class="team-desc">
+        Litera saya bangun sebagai proyek personal berbasis web yang
+        menggabungkan desain elegan, performa cepat, dan sistem
+        perpustakaan digital yang mudah digunakan.
+      </p>
+
+      <div class="tech-list">
+        <span>PHP Native</span>
+        <span>MySQLi</span>
+        <span>HTML5</span>
+        <span>CSS3</span>
+        <span>JavaScript</span>
+        <span>GitHub</span>
+      </div>
+    </div>
+
+    <!-- KANAN : FOTO -->
+    <div class="team-header-right">
+      <div class="profile-frame">
+        <img src="../assets/img/ruliffadrian.jpeg" alt="Developer Litera">
+      </div>
+    </div>
+
   </div>
 </section>
+  <?php include '../partials/footer.php'; ?>
 
-<!-- VISI -->
-<section class="parallax vision-section" style="background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('../assets/img/baca1.jpg');">
-  <div class="content-box animate__animated animate__fadeInUp">
-    <div class="icon-box"><i class="fas fa-lightbulb"></i></div>
-    <h2 class="section-title">Visi Kami</h2>
-    <p class="section-description">Menjadi platform literasi digital terbaik yang inklusif dan edukatif.</p>
-    <div class="vision-features">
-      <div class="feature-card"><h3>Inklusif</h3><p>Untuk semua kalangan tanpa batasan</p></div>
-      <div class="feature-card"><h3>Edukatif</h3><p>Konten berkualitas untuk pembelajaran</p></div>
-      <div class="feature-card"><h3>Inovatif</h3><p>Terus berkembang dengan teknologi</p></div>
-    </div>
-  </div>
-</section>
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
 
-<!-- TIM -->
-<section class="tim-section" id="tim">
-  <div class="container">
-    <h2>Tim Kami</h2>
-    <div class="tim-grid">
-      <div class="tim-card"><img src="../assets/img/3.png" alt="Rulif"><h3>Rulif Fadria Nirwansyah</h3><p>2113241075</p></div>
-      <div class="tim-card"><img src="../assets/img/1.png" alt="Febri"><h3>Febriana Abyaz</h3><p>2113241057</p></div>
-      <div class="tim-card"><img src="../assets/img/2.png" alt="Arum"><h3>Arum Laras Putri</h3><p>2113241051</p></div>
-      <div class="tim-card"><img src="../assets/img/4.png" alt="Syahrizal"><h3>Syahrizal Abdan Rabbani</h3><p>2113241050</p></div>
-    </div>
-  </div>
-</section>
-
-<?php include '../partials/footer.php'; ?>
-
-<!-- ScrollReveal -->
-<script>
-  ScrollReveal({ distance: '50px', duration: 1000, easing: 'ease-out', reset: false });
-  ScrollReveal().reveal('.content-box', { origin: 'bottom', delay: 300 });
-  ScrollReveal().reveal('.tim-card', { origin: 'bottom', interval: 200 });
-
-  // Close mobile menu on link click
-  document.querySelectorAll('.mobile-menu-list a').forEach(link => {
-    link.addEventListener('click', () => {
-      document.querySelector('.mobile-menu').classList.remove('active');
-      document.querySelector('.mobile-menu-overlay').classList.remove('active');
-      document.querySelector('.hamburger').classList.remove('active');
+    document.querySelectorAll('.stat-item, .story-inner, .value-card, .team-card, .team-header').forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(28px)';
+      el.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
+      observer.observe(el);
     });
-  });
-</script>
+
+    document.querySelectorAll('.value-card').forEach((card, i) => {
+      card.style.transitionDelay = `${i * 0.12}s`;
+    });
+    document.querySelectorAll('.team-card').forEach((card, i) => {
+      card.style.transitionDelay = `${i * 0.1}s`;
+    });
+    document.querySelectorAll('.stat-item').forEach((item, i) => {
+      item.style.transitionDelay = `${i * 0.08}s`;
+    });
+
+    document.querySelectorAll('.mobile-menu-list a').forEach(link => {
+      link.addEventListener('click', () => {
+        document.querySelector('.mobile-menu')?.classList.remove('active');
+        document.querySelector('.mobile-menu-overlay')?.classList.remove('active');
+        document.querySelector('.hamburger')?.classList.remove('active');
+      });
+    });
+  </script>
 </body>
 </html>

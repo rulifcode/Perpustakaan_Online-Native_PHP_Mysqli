@@ -1,204 +1,289 @@
-body {
-    margin: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(to bottom, #e4f0ff, #ffffff);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 15px;
-            box-sizing: border-box;
-        }
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=Jost:wght@300;400;500;600&display=swap');
 
-        .login-container {
-            width: 100%;
-            max-width: 520px;
-        }
+/* ===========================
+   RESET
+=========================== */
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
 
-        .login-box {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-            padding: 25px;
-            position: relative;
-            overflow: hidden;
-        }
+body{
+  font-family:'Jost',sans-serif;
+  background:#0e1a2b;
+  min-height:100vh;
+  color:#fff;
+  overflow-x:hidden;
+  position:relative;
+}
 
-        .login-box::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-        }
+/* Background premium */
+body::before{
+  content:'';
+  position:fixed;
+  inset:0;
+  background:
+    radial-gradient(circle at top right, rgba(200,170,100,.14), transparent 35%),
+    radial-gradient(circle at bottom left, rgba(255,255,255,.04), transparent 25%);
+  z-index:-2;
+}
 
-        .login-box h2 {
-            text-align: center;
-            margin: 0 0 20px 0;
-            font-size: 24px;
-            font-weight: 700;
-            color: #2d3748;
-        }
+body::after{
+  content:'';
+  position:fixed;
+  inset:0;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.015) 25%, transparent 25%),
+    linear-gradient(225deg, rgba(255,255,255,.015) 25%, transparent 25%);
+  background-size:40px 40px;
+  opacity:.22;
+  z-index:-1;
+}
 
-        .form-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-bottom: 15px;
-        }
+/* ===========================
+   WRAPPER
+=========================== */
+.login-container{
+  width:100%;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:40px 20px;
+}
 
-        .form-row {
-            display: contents;
-        }
+/* ===========================
+   CARD
+=========================== */
+.login-box{
+  width:100%;
+  max-width:880px;
+  background:rgba(255,255,255,.03);
+  border:1px solid rgba(200,170,100,.14);
+  box-shadow:0 30px 80px rgba(0,0,0,.45);
+  padding:42px;
+  backdrop-filter:blur(10px);
+}
 
-        .full-width {
-            grid-column: 1 / -1;
-        }
+/* ===========================
+   TITLE
+=========================== */
+.login-box h2{
+  font-family:'Cormorant Garamond',serif;
+  font-size:42px;
+  font-weight:600;
+  color:#e8d9b5;
+  text-align:center;
+  margin-bottom:28px;
+  letter-spacing:.04em;
+}
 
-        input, select {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #e2e8f0;
-            border-radius: 10px;
-            font-size: 14px;
-            font-family: inherit;
-            transition: all 0.3s ease;
-            background: white;
-            box-sizing: border-box;
-        }
+/* ===========================
+   MESSAGE
+=========================== */
+.message{
+  padding:14px 16px;
+  font-size:14px;
+  margin-bottom:22px;
+  text-align:center;
+  font-weight:500;
+}
 
-        input:focus, select:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
+.message.success{
+  background:rgba(30,180,90,.12);
+  color:#7df1aa;
+  border:1px solid rgba(30,180,90,.2);
+}
 
-        input::placeholder {
-            color: #a0aec0;
-        }
+.message.error{
+  background:rgba(255,80,80,.12);
+  color:#ff9f9f;
+  border:1px solid rgba(255,80,80,.2);
+}
 
-        select {
-            cursor: pointer;
-        }
+/* ===========================
+   FORM GRID
+=========================== */
+.form-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
+}
 
-        #extra-fields {
-            grid-column: 1 / -1;
-            display: none;
-            background: rgba(102, 126, 234, 0.05);
-            padding: 15px;
-            border-radius: 12px;
-            margin-top: 8px;
-        }
+.full-width{
+  grid-column:1 / -1;
+}
 
-        #extra-fields.show {
-            display: block;
-        }
+/* ===========================
+   INPUT / SELECT
+=========================== */
+input,
+select{
+  width:100%;
+  padding:15px 16px;
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.08);
+  color:#fff;
+  font-size:14px;
+  font-family:'Jost',sans-serif;
+  outline:none;
+  transition:.25s ease;
+}
 
-        #extra-fields label {
-            display: block;
-            font-size: 13px;
-            font-weight: 600;
-            color: #4a5568;
-            margin-bottom: 8px;
-        }
+input::placeholder{
+  color:rgba(255,255,255,.45);
+}
 
-        #extra-fields input {
-            margin-bottom: 10px;
-        }
+select{
+  appearance:none;
+}
 
-        #extra-fields input:last-child {
-            margin-bottom: 0;
-        }
+select option{
+  color:#111;
+}
 
-        button {
-            width: 100%;
-            padding: 14px;
-            background-color: #1d4ed8;
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
-            margin-top: 15px;
-        }
+input:focus,
+select:focus{
+  border-color:#c8aa64;
+  background:rgba(255,255,255,.06);
+  box-shadow:0 0 0 3px rgba(200,170,100,.08);
+}
 
-        button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
-        }
+/* ===========================
+   EXTRA FIELDS
+=========================== */
+#extra-fields{
+  grid-column:1 / -1;
+  display:none;
+  margin-top:4px;
+}
 
-        button:active {
-            transform: translateY(0);
-        }
+#extra-fields.show{
+  display:grid;
+  gap:14px;
+}
 
-        .login-box p {
-            text-align: center;
-            margin-top: 15px;
-            font-size: 14px;
-            color: #718096;
-        }
+#extra-fields label{
+  font-size:13px;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+  color:#c8aa64;
+  font-weight:500;
+}
 
-        .login-box p a {
-            color: #667eea;
-            text-decoration: none;
-            font-weight: 600;
-        }
+/* ===========================
+   BUTTON
+=========================== */
+button{
+  width:100%;
+  margin-top:26px;
+  padding:16px;
+  border:none;
+  background:#c8aa64;
+  color:#0e1a2b;
+  font-family:'Jost',sans-serif;
+  font-size:14px;
+  font-weight:600;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  cursor:pointer;
+  transition:.25s ease;
+}
 
-        .login-box p a:hover {
-            text-decoration: underline;
-        }
+button:hover{
+  background:#e8d9b5;
+  transform:translateY(-2px);
+  box-shadow:0 12px 30px rgba(200,170,100,.18);
+}
 
-        .message {
-            text-align: center;
-            padding: 10px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            font-size: 14px;
-            font-weight: 500;
-        }
+/* ===========================
+   FOOT LINK
+=========================== */
+.login-box p{
+  text-align:center;
+  margin-top:22px;
+  font-size:14px;
+}
 
-        .success {
-            background: rgba(72, 187, 120, 0.1);
-            color: #2f855a;
-            border: 1px solid rgba(72, 187, 120, 0.3);
-        }
+.login-box p a{
+  color:#c8aa64;
+  text-decoration:none;
+  transition:.25s;
+}
 
-        .error {
-            background: rgba(245, 101, 101, 0.1);
-            color: #c53030;
-            border: 1px solid rgba(245, 101, 101, 0.3);
-        }
+.login-box p a:hover{
+  color:#fff;
+}
 
-        @media (max-width: 600px) {
-            .form-grid {
-                grid-template-columns: 1fr;
-                gap: 12px;
-            }
-            
-            .login-box {
-                padding: 20px;
-                margin: 10px;
-            }
-            
-            .login-box h2 {
-                font-size: 22px;
-            }
-        }
+/* ===========================
+   SCROLLBAR
+=========================== */
+::-webkit-scrollbar{
+  width:8px;
+}
 
-        /* Animation for extra fields */
-        #extra-fields {
-            max-height: 0;
-            overflow: hidden;
-            transition: all 0.3s ease;
-            opacity: 0;
-        }
+::-webkit-scrollbar-track{
+  background:#0b1422;
+}
 
-        #extra-fields.show {
-            max-height: 200px;
-            opacity: 1;
-        }
+::-webkit-scrollbar-thumb{
+  background:#c8aa64;
+}
+
+/* ===========================
+   TABLET
+=========================== */
+@media(max-width:768px){
+
+  .login-box{
+    padding:30px 24px;
+  }
+
+  .login-box h2{
+    font-size:34px;
+  }
+
+  .form-grid{
+    grid-template-columns:1fr;
+    gap:14px;
+  }
+
+  .full-width{
+    grid-column:auto;
+  }
+}
+
+/* ===========================
+   MOBILE
+=========================== */
+@media(max-width:480px){
+
+  .login-container{
+    padding:20px 14px;
+  }
+
+  .login-box{
+    padding:24px 18px;
+  }
+
+  .login-box h2{
+    font-size:30px;
+    margin-bottom:20px;
+  }
+
+  input,
+  select{
+    padding:14px;
+    font-size:13px;
+  }
+
+  button{
+    padding:15px;
+    font-size:13px;
+  }
+
+  .message{
+    font-size:13px;
+  }
+}

@@ -1,4 +1,3 @@
-
 <?php
 include 'config/config.php';
 
@@ -8,1390 +7,880 @@ $bukuQuery = $conn->query("
     LEFT JOIN kategori ON buku.id_kategori = kategori.id_kategori 
     ORDER BY buku.id_buku DESC
 ");
+$rows = [];
+while ($b = $bukuQuery->fetch_assoc()) $rows[] = $b;
 ?>
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <title>Semua Buku - Litera</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/png" href="assets/img/favicon-32x32.png" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/style.css"> 
-  <link rel="stylesheet" href="assets/css/kategori.css"> 
+  <title>Semua Buku — Litera</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/header.css">
-  <script src="assets/js/header.js"></script>
   <link rel="stylesheet" href="assets/css/footer.css">
-  <link rel="stylesheet" href="assets/css/modal-responsive.css">
-  <script src="assets/js/animasi.js" defer></script>
-  <script src="assets/js/scroll.js" defer></script>
-  
+  <script src="assets/js/header.js"></script>
   <style>
-    /* Carousel Controls Styling */
-    .carousel-control-prev,
-    .carousel-control-next {
-      width: 5%;
-      background: rgba(0, 0, 0, 0.2);
-      border-radius: 0 10px 10px 0;
-      transition: all 0.3s ease;
+    :root {
+      --navy: #0d1f4e;
+      --navy-mid: #1f3c88;
+      --gold: #c9a84c;
+      --gold-light: #e6c878;
+      --cream: #f7f4ef;
+      --cream-dark: #ede9e0;
+      --white: #ffffff;
+      --text-body: #3a3a3a;
+      --text-muted: #7a7a7a;
     }
-    
-    .carousel-control-next {
-      border-radius: 10px 0 0 10px;
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--text-body);
     }
-    
-    .carousel-control-prev:hover,
-    .carousel-control-next:hover {
-      background: rgba(0, 0, 0, 0.4);
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 40px;
     }
-    
-    .carousel-control-prev-icon,
-    .carousel-control-next-icon {
-      width: 30px;
-      height: 30px;
-      background-size: 20px;
+
+    /* ===== CAROUSEL HERO ===== */
+    .hero-carousel {
+      position: relative;
+      height: 52vh;
+      min-height: 340px;
+      overflow: hidden;
     }
-    
-    /* Books Section Navigation Controls */
-    .books-nav-prev,
-    .books-nav-next {
+
+    .carousel-slides {
+      display: flex;
+      height: 100%;
+      transition: transform 0.7s cubic-bezier(0.77, 0, 0.175, 1);
+    }
+
+    .carousel-slide {
+      flex: 0 0 100%;
+      position: relative;
+    }
+
+    .carousel-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: brightness(0.45);
+      display: block;
+    }
+
+    .carousel-caption {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 0 40px;
+    }
+
+    .carousel-caption .eyebrow {
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 16px;
+    }
+
+    .carousel-caption h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 4vw, 3.2rem);
+      font-weight: 400;
+      color: #fff;
+      line-height: 1.2;
+      margin-bottom: 12px;
+    }
+
+    .carousel-caption p {
+      font-size: 0.95rem;
+      font-weight: 300;
+      color: rgba(255,255,255,0.6);
+    }
+
+    .carousel-divider {
+      width: 48px;
+      height: 1px;
+      background: var(--gold);
+      margin: 20px auto 0;
+    }
+
+    .carousel-btn {
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
-      z-index: 10;
-      width: 50px;
-      height: 50px;
-      background: rgba(255, 255, 255, 0.2);
-      backdrop-filter: blur(15px);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      border-radius: 50%;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.2);
       color: #fff;
-      font-size: 20px;
-      transition: all 0.3s ease;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: background 0.2s;
       display: flex;
       align-items: center;
       justify-content: center;
+      z-index: 10;
+    }
+
+    .carousel-btn:hover { background: rgba(201,168,76,0.25); border-color: var(--gold); }
+    .carousel-btn.prev { left: 24px; }
+    .carousel-btn.next { right: 24px; }
+
+    .carousel-dots {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 8px;
+      z-index: 10;
+    }
+
+    .carousel-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.35);
       cursor: pointer;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      transition: background 0.2s, transform 0.2s;
+      border: none;
     }
-    
-    .books-nav-prev {
-      left: -25px;
+
+    .carousel-dot.active {
+      background: var(--gold);
+      transform: scale(1.3);
     }
-    
-    .books-nav-next {
-      right: -25px;
+
+    /* ===== FILTER BAR ===== */
+    .filter-bar {
+      background: var(--white);
+      border-bottom: 1px solid var(--cream-dark);
+      padding: 20px 40px;
+      position: sticky;
+      top: 70px;
+      z-index: 50;
     }
-    
-    .books-nav-prev:hover,
-    .books-nav-next:hover {
-      background: rgba(255, 255, 255, 0.3);
-      border-color: rgba(255, 255, 255, 0.4);
-      color: #fff;
-      transform: translateY(-50%) scale(1.1);
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+
+    .filter-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
     }
-    
-    .books-nav-prev:focus,
-    .books-nav-next:focus {
+
+    .filter-search {
+      flex: 1 1 260px;
+      display: flex;
+      border: 1px solid var(--cream-dark);
+      border-radius: 3px;
+      overflow: hidden;
+      transition: border-color 0.2s;
+    }
+
+    .filter-search:focus-within { border-color: var(--navy-mid); }
+
+    .filter-search input {
+      flex: 1;
+      border: none;
+      padding: 9px 14px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 300;
+      color: var(--text-body);
+      background: transparent;
       outline: none;
-      box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
     }
-    
-    /* Glassmorphism Books Section Styles */
-    #semua-buku {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      position: relative;
-      overflow: hidden;
-    }
-    
-    #semua-buku::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="1.5" fill="rgba(255,255,255,0.08)"/><circle cx="50" cy="10" r="0.8" fill="rgba(255,255,255,0.12)"/><circle cx="10" cy="60" r="1.2" fill="rgba(255,255,255,0.09)"/><circle cx="90" cy="40" r="0.6" fill="rgba(255,255,255,0.11)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
-      pointer-events: none;
-    }
-    
-    .books-container {
-      position: relative;
-    }
-    
-    .glass-card {
-      background: rgba(255, 255, 255, 0.15);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 20px;
-      transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-      position: relative;
-      overflow: hidden;
-      box-shadow: 
-        0 8px 32px rgba(0, 0, 0, 0.1),
-        inset 0 1px 0 rgba(255, 255, 255, 0.2);
-    }
-    
-    .glass-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
-      transition: left 0.6s ease;
-      z-index: 1;
-    }
-    
-    .glass-card:hover::before {
-      left: 100%;
-    }
-    
-    .glass-card:hover {
-      transform: translateY(-12px) scale(1.02);
-      background: rgba(255, 255, 255, 0.25);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      box-shadow: 
-        0 20px 40px rgba(0, 0, 0, 0.15),
-        0 0 0 1px rgba(255, 255, 255, 0.1),
-        inset 0 1px 0 rgba(255, 255, 255, 0.3);
-    }
-    
-    .glass-card .card-img-top {
-      border-radius: 16px 16px 0 0;
-      height: 280px;
-      object-fit: cover;
-      transition: all 0.4s ease;
-      position: relative;
-      z-index: 2;
-    }
-    
-    .glass-card:hover .card-img-top {
-      transform: scale(1.05);
-      filter: brightness(1.1) contrast(1.1);
-    }
-    
-    .glass-card .card-body {
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(10px);
-      position: relative;
-      z-index: 2;
-      border-radius: 0;
-      padding: 1.5rem;
-    }
-    
-    .glass-card .card-title {
+
+    .filter-search button {
+      background: var(--navy);
       color: #fff;
+      border: none;
+      padding: 9px 16px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .filter-search button:hover { background: var(--gold); color: var(--navy); }
+
+    .filter-count {
+      font-size: 0.78rem;
+      font-weight: 400;
+      color: var(--text-muted);
+      letter-spacing: 0.05em;
+      margin-left: auto;
+    }
+
+    .filter-count strong { color: var(--navy); font-weight: 600; }
+
+    /* ===== BOOKS SECTION ===== */
+    .books-section {
+      padding: 60px 40px 80px;
+    }
+
+    .books-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 48px;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .books-header-left .eyebrow {
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 10px;
+    }
+
+    .books-header-left h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem;
+      font-weight: 400;
+      color: var(--navy);
+      line-height: 1.2;
+    }
+
+    .view-toggle {
+      display: flex;
+      gap: 6px;
+    }
+
+    .view-btn {
+      width: 36px;
+      height: 36px;
+      border: 1px solid var(--cream-dark);
+      background: var(--white);
+      border-radius: 3px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      color: var(--text-muted);
+    }
+
+    .view-btn.active, .view-btn:hover {
+      background: var(--navy);
+      border-color: var(--navy);
+      color: #fff;
+    }
+
+    /* Grid view */
+    .books-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 24px;
+    }
+
+    .books-grid.list-view {
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    /* Book Card */
+    .book-card {
+      background: var(--white);
+      border: 1px solid var(--cream-dark);
+      border-radius: 3px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    }
+
+    .book-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 48px rgba(13,31,78,0.1);
+      border-color: rgba(201,168,76,0.4);
+    }
+
+    .book-card-img {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .book-card-img img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      display: block;
+      filter: saturate(0.85);
+      transition: transform 0.4s ease, filter 0.3s ease;
+    }
+
+    .book-card:hover .book-card-img img {
+      transform: scale(1.05);
+      filter: saturate(1);
+    }
+
+    .book-card-img .stok-badge {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 0.62rem;
       font-weight: 600;
-      font-size: 1.1rem;
-      margin-bottom: 0.5rem;
-      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-      line-height: 1.3;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 4px 8px;
+      border-radius: 2px;
+    }
+
+    .stok-badge.tersedia { background: var(--navy); color: var(--gold-light); }
+    .stok-badge.habis { background: rgba(0,0,0,0.5); color: rgba(255,255,255,0.6); }
+
+    .book-card-body {
+      padding: 16px;
+    }
+
+    .book-card-kategori {
+      font-size: 0.62rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold);
+      border: 1px solid rgba(201,168,76,0.35);
+      padding: 2px 7px;
+      border-radius: 2px;
+      display: inline-block;
+      margin-bottom: 8px;
+    }
+
+    .book-card-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.95rem;
+      font-weight: 400;
+      color: var(--navy);
+      line-height: 1.4;
+      margin-bottom: 4px;
       display: -webkit-box;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
       overflow: hidden;
     }
-    
-    .glass-card .card-text {
-      color: rgba(255, 255, 255, 0.85);
-      font-size: 0.9rem;
-      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-      margin-bottom: 0;
-      display: -webkit-box;
-      -webkit-line-clamp: 1;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
+
+    .book-card-author {
+      font-size: 0.78rem;
+      font-weight: 300;
+      color: var(--text-muted);
+      margin-bottom: 12px;
     }
-    
-    .glass-card .card-footer {
-      background: rgba(255, 255, 255, 0.08);
-      backdrop-filter: blur(15px);
-      border: none;
-      border-radius: 0 0 16px 16px;
-      padding: 1.2rem;
-      position: relative;
-      z-index: 2;
+
+    .book-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
-    
-    .glass-btn {
-      background: rgba(255, 255, 255, 0.2);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      color: #fff;
-      padding: 8px 24px;
-      border-radius: 25px;
+
+    .book-stok {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+
+    .book-stok span { color: var(--navy-mid); font-weight: 600; }
+
+    .btn-detail {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.75rem;
       font-weight: 500;
-      font-size: 0.9rem;
-      transition: all 0.3s ease;
-      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+      letter-spacing: 0.06em;
+      color: var(--navy);
+      border: 1px solid var(--cream-dark);
+      background: transparent;
+      padding: 5px 12px;
+      border-radius: 2px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-detail:hover {
+      background: var(--navy);
+      color: #fff;
+      border-color: var(--navy);
+    }
+
+    /* List view card */
+    .books-grid.list-view .book-card {
+      display: flex;
+      transform: none !important;
+    }
+
+    .books-grid.list-view .book-card:hover {
+      box-shadow: 0 4px 20px rgba(13,31,78,0.08);
+      border-color: rgba(201,168,76,0.3);
+    }
+
+    .books-grid.list-view .book-card-img {
+      flex: 0 0 100px;
+    }
+
+    .books-grid.list-view .book-card-img img {
+      height: 100%;
+      min-height: 120px;
+    }
+
+    .books-grid.list-view .book-card-body {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding: 16px 20px;
+    }
+
+    .books-grid.list-view .book-card-title {
+      font-size: 1rem;
+      -webkit-line-clamp: 1;
+      flex: 1;
+    }
+
+    .books-grid.list-view .book-card-footer {
+      flex-direction: row;
+      align-items: center;
+    }
+
+    /* ===== MODAL ===== */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(13,31,78,0.6);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-overlay.open { display: flex; }
+
+    .modal-box {
+      background: var(--white);
+      border-radius: 4px;
+      max-width: 780px;
+      width: 100%;
+      max-height: 90vh;
+      overflow: hidden;
+      display: flex;
+      animation: modalIn 0.35s cubic-bezier(0.16,1,0.3,1);
+    }
+
+    @keyframes modalIn {
+      from { opacity: 0; transform: translateY(32px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .modal-cover {
+      flex: 0 0 280px;
+      background: var(--navy);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 32px;
       position: relative;
       overflow: hidden;
     }
-    
-    .glass-btn::before {
+
+    .modal-cover::before {
       content: '';
       position: absolute;
-      top: 0;
-      left: -100%;
+      top: -40px; left: 50%;
+      transform: translateX(-50%);
+      width: 300px; height: 300px;
+      border-radius: 50%;
+      border: 1px solid rgba(201,168,76,0.1);
+    }
+
+    .modal-cover img {
       width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-      transition: left 0.5s ease;
-    }
-    
-    .glass-btn:hover::before {
-      left: 100%;
-    }
-    
-    .glass-btn:hover {
-      background: rgba(255, 255, 255, 0.3);
-      border-color: rgba(255, 255, 255, 0.4);
-      color: #fff;
-      transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-    }
-    
-    .glass-btn:active {
-      transform: translateY(0);
-    }
-    
-    .section-title {
-      color: #fff;
-      font-size: 2.5rem;
-      font-weight: 700;
-      text-align: center;
-      margin-bottom: 3rem;
-      text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      max-width: 180px;
+      border-radius: 3px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
       position: relative;
+      z-index: 1;
     }
-    
-    .section-title::after {
-      content: '';
+
+    .modal-stock-badge {
       position: absolute;
-      bottom: -15px;
+      bottom: 20px;
       left: 50%;
       transform: translateX(-50%);
-      width: 80px;
-      height: 4px;
-      background: linear-gradient(90deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.2));
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 6px 16px;
       border-radius: 2px;
+      white-space: nowrap;
     }
-    
-    /* Books carousel functionality */
-    .books-carousel {
-      overflow: hidden;
-      position: relative;
-    }
-    
-    .books-track {
+
+    .modal-stock-badge.tersedia { background: rgba(201,168,76,0.15); color: var(--gold-light); border: 1px solid rgba(201,168,76,0.3); }
+    .modal-stock-badge.habis { background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.4); border: 1px solid rgba(255,255,255,0.1); }
+
+    .modal-content {
+      flex: 1;
+      padding: 40px 36px;
+      overflow-y: auto;
       display: flex;
-      transition: transform 0.5s ease;
-      gap: 1.5rem;
+      flex-direction: column;
+      justify-content: center;
     }
-    
-    .book-slide {
-      flex: 0 0 auto;
-      width: calc(25% - 1.125rem);
+
+    .modal-kategori {
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      border: 1px solid rgba(201,168,76,0.35);
+      padding: 3px 10px;
+      border-radius: 2px;
+      display: inline-block;
+      margin-bottom: 16px;
     }
-    
-    /* Animation for cards on scroll */
-    .glass-card {
-      opacity: 0;
-      transform: translateY(30px);
-      animation: fadeInUp 0.6s ease forwards;
+
+    .modal-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.7rem;
+      font-weight: 400;
+      color: var(--navy);
+      line-height: 1.25;
+      margin-bottom: 8px;
     }
-    
-    .glass-card:nth-child(1) { animation-delay: 0.1s; }
-    .glass-card:nth-child(2) { animation-delay: 0.2s; }
-    .glass-card:nth-child(3) { animation-delay: 0.3s; }
-    .glass-card:nth-child(4) { animation-delay: 0.4s; }
-    .glass-card:nth-child(5) { animation-delay: 0.5s; }
-    .glass-card:nth-child(6) { animation-delay: 0.6s; }
-    .glass-card:nth-child(7) { animation-delay: 0.7s; }
-    .glass-card:nth-child(8) { animation-delay: 0.8s; }
-    
-    @keyframes fadeInUp {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+
+    .modal-author {
+      font-size: 0.9rem;
+      font-weight: 300;
+      color: var(--text-muted);
+      font-style: italic;
+      margin-bottom: 28px;
     }
-    
-    /* Responsive adjustments */
-    @media (max-width: 1200px) {
-      .book-slide {
-        width: calc(33.333% - 1rem);
-      }
+
+    .modal-divider {
+      width: 40px;
+      height: 1px;
+      background: var(--gold);
+      margin-bottom: 28px;
     }
-    
+
+    .modal-meta {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+
+    .meta-row {
+      background: var(--cream);
+      border: 1px solid var(--cream-dark);
+      border-radius: 3px;
+      padding: 12px 14px;
+    }
+
+    .meta-row .label {
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    .meta-row .value {
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--navy);
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      color: rgba(255,255,255,0.6);
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      font-size: 1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      z-index: 10;
+    }
+
+    .modal-close:hover { background: rgba(255,255,255,0.15); color: #fff; }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 1024px) {
+      .books-grid { grid-template-columns: repeat(4, 1fr); }
+    }
     @media (max-width: 768px) {
-      .glass-card .card-img-top {
-        height: 220px;
-      }
-      
-      .section-title {
-        font-size: 2rem;
-        margin-bottom: 2rem;
-      }
-      
-      .glass-card:hover {
-        transform: translateY(-8px) scale(1.01);
-      }
-      
-      .book-slide {
-        width: calc(50% - 0.75rem);
-      }
-      
-      .books-nav-prev,
-      .books-nav-next {
-        width: 40px;
-        height: 40px;
-        font-size: 16px;
-      }
-      
-      .books-nav-prev {
-        left: -20px;
-      }
-      
-      .books-nav-next {
-        right: -20px;
-      }
+      .books-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+      .modal-box { flex-direction: column; max-height: 95vh; }
+      .modal-cover { flex: 0 0 200px; }
+      .container, .books-section, .filter-bar { padding-left: 20px; padding-right: 20px; }
+      .modal-meta { grid-template-columns: 1fr; }
     }
-    
-    @media (max-width: 576px) {
-      .glass-card .card-img-top {
-        height: 200px;
-      }
-      
-      .glass-card .card-body {
-        padding: 1rem;
-      }
-      
-      .glass-card .card-footer {
-        padding: 1rem;
-      }
-      
-      .book-slide {
-        width: calc(100% - 0.5rem);
-      }
-      
-      .books-nav-prev,
-      .books-nav-next {
-        display: none;
-      }
+    @media (max-width: 480px) {
+      .books-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+      .book-card-img img { height: 160px; }
     }
   </style>
 </head>
 <body>
+  <?php include 'partials/header.php'; ?>
 
-<!-- Include your existing header here -->
-<?php include 'partials/header.php'; ?>
-
-<!-- Hero Carousel Section -->
-<section id="carouselBuku" class="mb-0">
-  <div id="literaCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4000">
-    <div class="carousel-inner">
-      <div class="carousel-item active">
-        <img src="assets/img/baca2.png" class="d-block w-100" alt="Slide 1">
-        <div class="carousel-caption d-none d-md-block">
-          <h3 class="fw-bold">Temukan Buku Favoritmu</h3>
-          <p>Jelajahi berbagai kategori bacaan terbaik.</p>
+  <!-- CAROUSEL HERO -->
+  <div class="hero-carousel" id="heroCarousel">
+    <div class="carousel-slides" id="carouselSlides">
+      <div class="carousel-slide">
+        <img src="assets/img/baca2.png" alt="Slide 1">
+        <div class="carousel-caption">
+          <span class="eyebrow">Perpustakaan Digital Litera</span>
+          <h2>Temukan buku<br><em>favoritmu hari ini</em></h2>
+          <p>Jelajahi ribuan koleksi dari berbagai genre</p>
+          <div class="carousel-divider"></div>
         </div>
       </div>
-      <div class="carousel-item">
-        <img src="assets/img/Siswa-perempuan-sedang-memegang-buku-di-antara-dua-orang-teman-lelaki-dan-wanita-di-perpustakaan_l3rWA.jpg" class="d-block w-100" alt="Slide 2">
-        <div class="carousel-caption d-none d-md-block">
-          <h3 class="fw-bold">Koleksi Terbaru</h3>
-          <p>Update setiap minggu dengan buku-buku baru.</p>
-        </div>
-      </div>
-      <div class="carousel-item">
-        <img src="assets/img/baca4.jpg" class="d-block w-100" alt="Slide 3">
-        <div class="carousel-caption d-none d-md-block">
-          <h3 class="fw-bold">Baca Dimana Saja</h3>
-          <p>Perpustakaan digital yang mudah diakses.</p>
+      <div class="carousel-slide">
+        <img src="assets/img/baca4.jpg" alt="Slide 2">
+        <div class="carousel-caption">
+          <span class="eyebrow">Koleksi Terpilih</span>
+          <h2>Baca kapan saja,<br><em>di mana saja</em></h2>
+          <p>Update koleksi setiap minggu untuk pembaca setia</p>
+          <div class="carousel-divider"></div>
         </div>
       </div>
     </div>
-    <!-- Carousel Controls -->
-    <button class="carousel-control-prev" type="button" data-bs-target="#literaCarousel" data-bs-slide="prev">
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Previous</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#literaCarousel" data-bs-slide="next">
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Next</span>
-    </button>
+    <button class="carousel-btn prev" onclick="moveCarousel(-1)">&#8249;</button>
+    <button class="carousel-btn next" onclick="moveCarousel(1)">&#8250;</button>
+    <div class="carousel-dots" id="carouselDots">
+      <button class="carousel-dot active" onclick="goToSlide(0)"></button>
+      <button class="carousel-dot" onclick="goToSlide(1)"></button>
+    </div>
   </div>
-</section>
 
-<!-- Glassmorphism All Books Section -->
-<section id="semua-buku" class="py-5">
-  <div class="container">
-    <h2 class="section-title">Daftar Buku Terbaru</h2>
+  <!-- FILTER BAR -->
+  <div class="filter-bar">
+    <div class="filter-inner">
+      <div class="filter-search">
+        <input type="text" id="searchInput" placeholder="Cari judul atau penulis..." oninput="filterBooks()">
+        <button onclick="filterBooks()">Cari</button>
+      </div>
+      <span class="filter-count">
+        Menampilkan <strong id="bookCount"><?= count($rows) ?></strong> buku
+      </span>
+    </div>
+  </div>
 
-    <div class="books-container">
-      <!-- Navigation Controls -->
-      <button class="books-nav-prev" onclick="slideBooks('prev')" aria-label="Previous books">
-        &#8249;
-      </button>
-      <button class="books-nav-next" onclick="slideBooks('next')" aria-label="Next books">
-        &#8250;
-      </button>
-      
-      <!-- Books Carousel -->
-      <div class="books-carousel">
-        <div class="books-track" id="booksTrack">
-          <?php while ($buku = $bukuQuery->fetch_assoc()): ?>
-            <div class="book-slide">
-              <div class="card glass-card h-100">
-                <img src="uploads/<?= htmlspecialchars($buku['gambar'] ?: 'default.png') ?>" class="card-img-top" alt="<?= htmlspecialchars($buku['judul']) ?>">
-                <div class="card-body">
-                  <h5 class="card-title"><?= htmlspecialchars($buku['judul']) ?></h5>
-                  <p class="card-text"><?= htmlspecialchars($buku['penulis']) ?></p>
-                </div>
-                <div class="card-footer text-center">
-                  <button type="button" class="btn glass-btn" data-bs-toggle="modal" data-bs-target="#bukuModal" 
-                          onclick="showBookDetail(
-                            '<?= htmlspecialchars($buku['id_buku']) ?>',
-                            '<?= htmlspecialchars($buku['judul']) ?>',
-                            '<?= htmlspecialchars($buku['penulis']) ?>',
-                            '<?= htmlspecialchars($buku['penerbit'] ?? '-') ?>',
-                            '<?= htmlspecialchars($buku['tahun_terbit'] ?? '-') ?>',
-                            '<?= htmlspecialchars($buku['nama_kategori'] ?? '-') ?>',
-                            '<?= htmlspecialchars($buku['gambar'] ?: 'default.png') ?>',
-                            '<?= htmlspecialchars($buku['stok'] ?? '0') ?>'
-                          )">
-                    Detail
-                  </button>
-                </div>
-              </div>
+  <!-- BOOKS SECTION -->
+  <section class="books-section">
+    <div class="container">
+      <div class="books-header">
+        <div class="books-header-left">
+          <p class="eyebrow">Semua Koleksi</p>
+          <h2>Daftar Buku Terbaru</h2>
+        </div>
+        <div class="view-toggle">
+          <button class="view-btn active" id="gridBtn" onclick="setView('grid')" title="Grid view">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor">
+              <rect x="0" y="0" width="6" height="6"/><rect x="10" y="0" width="6" height="6"/>
+              <rect x="0" y="10" width="6" height="6"/><rect x="10" y="10" width="6" height="6"/>
+            </svg>
+          </button>
+          <button class="view-btn" id="listBtn" onclick="setView('list')" title="List view">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor">
+              <rect x="0" y="0" width="16" height="3"/><rect x="0" y="6" width="16" height="3"/>
+              <rect x="0" y="12" width="16" height="3"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="books-grid" id="booksGrid">
+        <?php foreach ($rows as $buku): ?>
+          <div class="book-card"
+               data-judul="<?= strtolower(htmlspecialchars($buku['judul'])) ?>"
+               data-penulis="<?= strtolower(htmlspecialchars($buku['penulis'])) ?>"
+               onclick="openModal(
+                 '<?= addslashes(htmlspecialchars($buku['judul'])) ?>',
+                 '<?= addslashes(htmlspecialchars($buku['penulis'])) ?>',
+                 '<?= addslashes(htmlspecialchars($buku['penerbit'] ?? '-')) ?>',
+                 '<?= addslashes(htmlspecialchars($buku['tahun_terbit'] ?? '-')) ?>',
+                 '<?= addslashes(htmlspecialchars($buku['nama_kategori'] ?? '-')) ?>',
+                 '<?= htmlspecialchars($buku['gambar'] ?: 'default.png') ?>',
+                 <?= (int)($buku['stok'] ?? 0) ?>
+               )">
+            <div class="book-card-img">
+              <img src="uploads/<?= htmlspecialchars($buku['gambar'] ?: 'default.png') ?>"
+                   alt="<?= htmlspecialchars($buku['judul']) ?>">
+              <span class="stok-badge <?= ($buku['stok'] ?? 0) > 0 ? 'tersedia' : 'habis' ?>">
+                <?= ($buku['stok'] ?? 0) > 0 ? 'Tersedia' : 'Habis' ?>
+              </span>
             </div>
-          <?php endwhile; ?>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Book Details Modal -->
-<div class="modal fade" id="bukuModal" tabindex="-1" aria-labelledby="bukuModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-lg">
-    <div class="modal-content modern-modal">
-      <button type="button" class="btn-close-modern" data-bs-dismiss="modal" aria-label="Close">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </button>
-      
-      <div class="modal-body p-0">
-        <div class="row g-0 h-100">
-          <!-- Image Section -->
-          <div class="col-lg-5 book-cover-section">
-            <div class="book-cover-container">
-              <div class="book-cover-wrapper">
-                <img id="modalBookImage" src="" class="book-cover-image" alt="Cover Buku">
-                <div class="book-cover-overlay"></div>
-              </div>
-              <div class="floating-stock-badge" id="floatingStockBadge">
-                <span id="stockIcon"></span>
-                <span id="stockText"></span>
+            <div class="book-card-body">
+              <span class="book-card-kategori"><?= htmlspecialchars($buku['nama_kategori'] ?? '-') ?></span>
+              <h3 class="book-card-title"><?= htmlspecialchars($buku['judul']) ?></h3>
+              <p class="book-card-author"><?= htmlspecialchars($buku['penulis']) ?></p>
+              <div class="book-card-footer">
+                <span class="book-stok">Stok: <span><?= $buku['stok'] ?? 0 ?></span></span>
+                <button class="btn-detail">Detail</button>
               </div>
             </div>
           </div>
-          
-          <!-- Content Section -->
-          <div class="col-lg-7 book-details-section">
-            <div class="book-details-content">
-              <div class="book-category-tag" id="modalBookCategoryTag"></div>
-              
-              <h1 class="book-title" id="modalBookTitle"></h1>
-              <p class="book-author" id="modalBookAuthor"></p>
-              
-              <div class="book-meta-grid">
-                <div class="meta-item">
-                  <div class="meta-icon">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                      <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                  </div>
-                  <div class="meta-content">
-                    <span class="meta-label">Penerbit</span>
-                    <span class="meta-value" id="modalBookPublisher"></span>
-                  </div>
-                </div>
-                
-                <div class="meta-item">
-                  <div class="meta-icon">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <rect x="3" y="4" width="18" height="18" rx="2" ry="2" stroke="currentColor" stroke-width="2" fill="none"/>
-                      <line x1="16" y1="2" x2="16" y2="6" stroke="currentColor" stroke-width="2"/>
-                      <line x1="8" y1="2" x2="8" y2="6" stroke="currentColor" stroke-width="2"/>
-                      <line x1="3" y1="10" x2="21" y2="10" stroke="currentColor" stroke-width="2"/>
-                    </svg>
-                  </div>
-                  <div class="meta-content">
-                    <span class="meta-label">Tahun Terbit</span>
-                    <span class="meta-value" id="modalBookYear"></span>
-                  </div>
-                </div>
-                
-                <div class="meta-item">
-                  <div class="meta-icon">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" stroke="currentColor" stroke-width="2" fill="none"/>
-                      <line x1="7" y1="7" x2="7.01" y2="7" stroke="currentColor" stroke-width="2"/>
-                    </svg>
-                  </div>
-                  <div class="meta-content">
-                    <span class="meta-label">ID Buku</span>
-                    <span class="meta-value" id="modalBookId"></span>
-                  </div>
-                </div>
-                
-                <div class="meta-item">
-                  <div class="meta-icon">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" stroke="currentColor" stroke-width="2" fill="none"/>
-                      <polyline points="3.27,6.96 12,12.01 20.73,6.96" stroke="currentColor" stroke-width="2"/>
-                      <line x1="12" y1="22.08" x2="12" y2="12" stroke="currentColor" stroke-width="2"/>
-                    </svg>
-                  </div>
-                  <div class="meta-content">
-                    <span class="meta-label">Stok Tersedia</span>
-                    <span class="meta-value" id="modalBookStock"></span>
-                  </div>
-                </div>
-              </div>
-              </div>
-            </div>
+        <?php endforeach; ?>
+      </div>
+
+      <div id="emptyState" style="display:none; text-align:center; padding:60px 20px;">
+        <p style="font-family:'Playfair Display',serif; font-size:1.4rem; color:var(--navy); margin-bottom:8px;">Buku tidak ditemukan</p>
+        <p style="font-size:0.88rem; color:var(--text-muted); font-weight:300;">Coba kata kunci yang berbeda</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- MODAL -->
+  <div class="modal-overlay" id="modalOverlay" onclick="closeModalOutside(event)">
+    <div class="modal-box">
+      <div class="modal-cover" style="position:relative;">
+        <button class="modal-close" onclick="closeModal()">&#10005;</button>
+        <img id="mImg" src="" alt="">
+        <span class="modal-stock-badge" id="mStockBadge"></span>
+      </div>
+      <div class="modal-content">
+        <span class="modal-kategori" id="mKategori"></span>
+        <h2 class="modal-title" id="mJudul"></h2>
+        <p class="modal-author" id="mPenulis"></p>
+        <div class="modal-divider"></div>
+        <div class="modal-meta">
+          <div class="meta-row">
+            <div class="label">Penerbit</div>
+            <div class="value" id="mPenerbit"></div>
+          </div>
+          <div class="meta-row">
+            <div class="label">Tahun Terbit</div>
+            <div class="value" id="mTahun"></div>
+          </div>
+          <div class="meta-row">
+            <div class="label">Kategori</div>
+            <div class="value" id="mKategori2"></div>
+          </div>
+          <div class="meta-row">
+            <div class="label">Stok Tersedia</div>
+            <div class="value" id="mStok"></div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 
-<!-- Modern Modal Styles with Mobile Responsive -->
-<style>
-/* Base Styles */
-.modern-modal {
-  border: none;
-  border-radius: 16px;
-  box-shadow: 0 32px 64px rgba(0, 0, 0, 0.12);
-  overflow: hidden;
-  position: relative;
-  animation: modalSlideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
+  <?php include 'partials/footer.php'; ?>
 
-@keyframes modalSlideUp {
-  from { opacity: 0; transform: translateY(60px) scale(0.9); }
-  to { opacity: 1; transform: translateY(0) scale(1); }
-}
-
-.btn-close-modern {
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  z-index: 1000;
-  background: rgba(255, 255, 255, 0.9);
-  border: none;
-  border-radius: 12px;
-  width: 36px;
-  height: 36px;
-  padding: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s ease;
-  backdrop-filter: blur(10px);
-}
-
-.btn-close-modern:hover {
-  background: rgba(255, 255, 255, 1);
-  transform: scale(1.1);
-}
-
-/* Book Cover Section */
-.book-cover-section {
-  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-  position: relative;
-  min-height: 400px;
-  overflow: hidden;
-}
-
-.book-cover-container {
-  position: relative;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 30px;
-}
-
-.book-cover-wrapper {
-  position: relative;
-  max-width: 240px;
-  transform: perspective(1000px) rotateY(-10deg) rotateX(5deg);
-  transition: all 0.5s ease;
-}
-
-.book-cover-wrapper:hover {
-  transform: perspective(1000px) rotateY(0deg) rotateX(0deg) scale(1.05);
-}
-
-.book-cover-image {
-  width: 100%;
-  height: auto;
-  border-radius: 12px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-  transition: all 0.3s ease;
-}
-
-.floating-stock-badge {
-  position: absolute;
-  top: -8px;
-  right: -8px;
-  background: linear-gradient(135deg, #667eea 0%,rgb(18, 171, 231) 100%);
-  color: white;
-  padding: 8px 14px;
-  border-radius: 16px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-weight: 600;
-  font-size: 13px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-  animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.05); }
-}
-
-/* Book Details Section */
-.book-details-section {
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-  position: relative;
-}
-
-.book-details-content {
-  padding: 30px;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.book-category-tag {
-  display: inline-block;
-  background: linear-gradient(135deg, #ff6b6b, #ee5a24);
-  color: white;
-  padding: 6px 12px;
-  border-radius: 16px;
-  font-size: 11px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-bottom: 15px;
-  box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
-}
-
-.book-title {
-  font-size: 1.8rem;
-  font-weight: 700;
-  color: #2c3e50;
-  margin-bottom: 10px;
-  line-height: 1.3;
-}
-
-.book-author {
-  font-size: 1.1rem;
-  color: #7f8c8d;
-  margin-bottom: 25px;
-  font-style: italic;
-}
-
-.book-meta-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 15px;
-  margin-bottom: 30px;
-}
-
-.meta-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 15px;
-  background: rgba(255, 255, 255, 0.8);
-  border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  transition: all 0.3s ease;
-  backdrop-filter: blur(10px);
-}
-
-.meta-item:hover {
-  background: rgba(255, 255, 255, 0.95);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-}
-
-.meta-icon {
-  flex-shrink: 0;
-  width: 32px;
-  height: 32px;
-  background: linear-gradient(135deg, #667eea 0%,rgb(0, 208, 255) 100%);
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-}
-
-.meta-icon svg {
-  width: 18px;
-  height: 18px;
-}
-
-.meta-content {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-}
-
-.meta-label {
-  font-size: 11px;
-  color: #7f8c8d;
-  font-weight: 600;
-  margin-bottom: 2px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.meta-value {
-  font-size: 14px;
-  color: #2c3e50;
-  font-weight: 600;
-  word-break: break-word;
-}
-
-.action-buttons {
-  display: flex;
-  gap: 12px;
-}
-
-.btn-modern {
-  position: relative;
-  border: none;
-  border-radius: 12px;
-  padding: 12px 20px;
-  font-weight: 600;
-  font-size: 14px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  min-width: 140px;
-  justify-content: center;
-  overflow: hidden;
-}
-
-.btn-modern:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-  transform: none !important;
-}
-
-.btn-modern.btn-primary {
-  background: linear-gradient(135deg, #667eea 0%,rgb(29, 183, 226) 100%);
-  color: white;
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-}
-
-.btn-modern.btn-primary:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
-}
-
-.btn-modern.btn-secondary {
-  background: rgba(255, 255, 255, 0.9);
-  color: #2c3e50;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-}
-
-.btn-modern.btn-secondary:hover {
-  background: rgba(255, 255, 255, 1);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-}
-
-.btn-ripple {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
-  transform: scale(0);
-  border-radius: inherit;
-  pointer-events: none;
-}
-
-@keyframes ripple {
-  0% {
-    transform: scale(0);
-    opacity: 1;
-  }
-  100% {
-    transform: scale(4);
-    opacity: 0;
-  }
-}
-
-/* Carousel Responsive */
-#carouselBuku .carousel-item img {
-  height: 50vh;
-  object-fit: cover;
-  filter: brightness(70%);
-}
-
-.carousel-caption h3 {
-  font-size: 1.5rem;
-}
-
-.carousel-caption p {
-  font-size: 1rem;
-}
-
-/* Book Cards Responsive */
-#semua-buku .card {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-#semua-buku .card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-}
-
-#semua-buku .card-img-top {
-  height: 200px;
-  object-fit: cover;
-  transition: transform 0.3s ease;
-}
-
-#semua-buku .card:hover .card-img-top {
-  transform: scale(1.05);
-}
-
-#semua-buku .card-title {
-  font-size: 1rem;
-  margin-bottom: 0.5rem;
-  font-weight: 600;
-}
-
-#semua-buku .card-text {
-  font-size: 0.85rem;
-}
-
-/* Responsive Breakpoints */
-@media (max-width: 1199.98px) {
-  .book-title {
-    font-size: 1.6rem;
-  }
-  
-  .book-meta-grid {
-    grid-template-columns: 1fr;
-    gap: 12px;
-  }
-  
-  .meta-item {
-    padding: 12px;
-  }
-  
-  .action-buttons {
-    flex-direction: column;
-  }
-  
-  .btn-modern {
-    width: 100%;
-    min-width: auto;
-  }
-}
-
-@media (max-width: 991.98px) {
-  .modal-dialog {
-    max-width: 90%;
-    margin: 1rem auto;
-  }
-  
-  .book-cover-section {
-    min-height: 350px;
-  }
-  
-  .book-cover-wrapper {
-    max-width: 200px;
-    transform: none;
-  }
-  
-  .book-title {
-    font-size: 1.5rem;
-  }
-  
-  .book-author {
-    font-size: 1rem;
-  }
-  
-  .book-details-content {
-    padding: 25px;
-  }
-}
-
-@media (max-width: 767.98px) {
-  .modal-dialog {
-    margin: 0.5rem;
-    max-width: none;
-  }
-  
-  .modern-modal {
-    border-radius: 12px;
-    max-height: 95vh;
-    overflow-y: auto;
-  }
-  
-  .modal-body {
-    overflow-y: auto;
-  }
-  
-  .row.g-0 {
-    flex-direction: column;
-  }
-  
-  .book-cover-section {
-    min-height: 280px;
-    order: 1;
-  }
-  
-  .book-details-section {
-    order: 2;
-  }
-  
-  .book-cover-container {
-    padding: 20px;
-  }
-  
-  .book-cover-wrapper {
-    max-width: 160px;
-  }
-  
-  .book-details-content {
-    padding: 20px;
-  }
-  
-  .book-title {
-    font-size: 1.4rem;
-    margin-bottom: 8px;
-  }
-  
-  .book-author {
-    font-size: 0.95rem;
-    margin-bottom: 20px;
-  }
-  
-  .book-meta-grid {
-    margin-bottom: 25px;
-  }
-  
-  .meta-item {
-    padding: 10px;
-    gap: 10px;
-  }
-  
-  .meta-icon {
-    width: 28px;
-    height: 28px;
-  }
-  
-  .meta-icon svg {
-    width: 16px;
-    height: 16px;
-  }
-  
-  .meta-value {
-    font-size: 13px;
-  }
-  
-  .btn-modern {
-    padding: 10px 15px;
-    font-size: 13px;
-  }
-  
-  .btn-close-modern {
-    top: 10px;
-    right: 10px;
-    width: 32px;
-    height: 32px;
-  }
-  
-  .floating-stock-badge {
-    padding: 6px 10px;
-    font-size: 11px;
-    top: -6px;
-    right: -6px;
-  }
-  
-  #carouselBuku .carousel-item img {
-    height: 40vh;
-  }
-  
-  .carousel-caption h3 {
-    font-size: 1.3rem;
-  }
-  
-  .carousel-caption p {
-    font-size: 0.9rem;
-  }
-}
-
-@media (max-width: 575.98px) {
-  .modal-dialog {
-    margin: 0.25rem;
-  }
-  
-  .book-cover-section {
-    min-height: 250px;
-  }
-  
-  .book-cover-wrapper {
-    max-width: 140px;
-  }
-  
-  .book-title {
-    font-size: 1.3rem;
-  }
-  
-  .book-author {
-    font-size: 0.9rem;
-    margin-bottom: 18px;
-  }
-  
-  .book-details-content {
-    padding: 15px;
-  }
-  
-  .book-meta-grid {
-    gap: 10px;
-    margin-bottom: 20px;
-  }
-  
-  .meta-item {
-    padding: 8px;
-    gap: 8px;
-  }
-  
-  .meta-icon {
-    width: 24px;
-    height: 24px;
-  }
-  
-  .meta-icon svg {
-    width: 14px;
-    height: 14px;
-  }
-  
-  .meta-value {
-    font-size: 12px;
-  }
-  
-  .btn-modern {
-    padding: 8px 12px;
-    font-size: 12px;
-    gap: 6px;
-  }
-  
-  .action-buttons {
-    gap: 8px;
-  }
-  
-  #carouselBuku .carousel-item img {
-    height: 35vh;
-  }
-  
-  #semua-buku .card-img-top {
-    height: 180px;
-  }
-}
-
-/* Dark Mode Support */
-@media (prefers-color-scheme: dark) {
-  .book-details-section {
-    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
-  }
-  
-  .book-title {
-    color: #ecf0f1;
-  }
-  
-  .book-author {
-    color: #bdc3c7;
-  }
-  
-  .meta-item {
-    background: rgba(52, 73, 94, 0.8);
-    border-color: rgba(255, 255, 255, 0.1);
-  }
-  
-  .meta-item:hover {
-    background: rgba(52, 73, 94, 0.95);
-  }
-  
-  .meta-value {
-    color: #ecf0f1;
-  }
-  
-  .meta-label {
-    color: #95a5a6;
-  }
-  
-  .btn-modern.btn-secondary {
-    background: rgba(44, 62, 80, 0.8);
-    color: #ecf0f1;
-    border-color: rgba(255, 255, 255, 0.2);
-  }
-  
-  .btn-modern.btn-secondary:hover {
-    background: rgba(44, 62, 80, 1);
-  }
-}
-
-/* Loading states */
-.btn-modern.loading {
-  pointer-events: none;
-}
-
-.btn-modern.loading .btn-text {
-  opacity: 0.7;
-}
-
-.btn-modern.loading .btn-icon {
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-</style>
-
-<?php include 'partials/footer.php'; ?>
-
-<!-- JavaScript Libraries -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://unpkg.com/scrollreveal"></script>
-
-<!-- Custom Scripts -->
-<script>
-  let currentPosition = 0;
-const track = document.getElementById('booksTrack');
-const slides = document.querySelectorAll('.book-slide');
-const totalSlides = slides.length;
-const slidesPerView = getSlidesPerView();
-const maxPosition = Math.max(0, totalSlides - slidesPerView);
-
-function getSlidesPerView() {
-  if (window.innerWidth <= 576) return 1;
-  if (window.innerWidth <= 768) return 2;
-  if (window.innerWidth <= 1200) return 3;
-  return 4;
-}
-
-function slideBooks(direction) {
-  if (direction === 'next' && currentPosition < maxPosition) {
-    currentPosition++;
-  } else if (direction === 'prev' && currentPosition > 0) {
-    currentPosition--;
-  }
-  
-  const slideWidth = slides[0].offsetWidth + 24; // width + gap
-  const translateX = -currentPosition * slideWidth;
-  track.style.transform = `translateX(${translateX}px)`;
-  
-  updateNavigationButtons();
-}
-
-function updateNavigationButtons() {
-  const prevBtn = document.querySelector('.books-nav-prev');
-  const nextBtn = document.querySelector('.books-nav-next');
-  
-  prevBtn.style.opacity = currentPosition === 0 ? '0.5' : '1';
-  nextBtn.style.opacity = currentPosition === maxPosition ? '0.5' : '1';
-  
-  prevBtn.style.pointerEvents = currentPosition === 0 ? 'none' : 'auto';
-  nextBtn.style.pointerEvents = currentPosition === maxPosition ? 'none' : 'auto';
-}
-
-// Handle window resize
-window.addEventListener('resize', () => {
-  const newSlidesPerView = getSlidesPerView();
-  const newMaxPosition = Math.max(0, totalSlides - newSlidesPerView);
-  
-  if (currentPosition > newMaxPosition) {
-    currentPosition = newMaxPosition;
-  }
-  
-  slideBooks('');
-});
-
-// Initialize navigation buttons
-updateNavigationButtons();
-
-// Auto-scroll functionality (optional)
-setInterval(() => {
-  if (currentPosition < maxPosition) {
-    slideBooks('next');
-  } else {
-    currentPosition = 0;
-    slideBooks('');
-  }
-}, 5000);
-  function showBookDetail(id, judul, penulis, penerbit, tahun, kategori, gambar, stok) {
-    // Your existing modal function code here
-    console.log('Book details:', {id, judul, penulis, penerbit, tahun, kategori, gambar, stok});
-}
-
-// Enhanced hover effects
-document.addEventListener('DOMContentLoaded', function() {
-    const cards = document.querySelectorAll('.glass-card');
-    
-    cards.forEach(card => {
-        card.addEventListener('mouseenter', function() {
-            this.style.zIndex = '10';
-        });
-        
-        card.addEventListener('mouseleave', function() {
-            this.style.zIndex = '1';
-        });
-    });
-});
-// Function to show book detail in modal
-function showBookDetail(id, judul, penulis, penerbit, tahun, kategori, gambar, stok) {
-    // Populate modal data
-    document.getElementById('modalBookId').textContent = id;
-    document.getElementById('modalBookTitle').textContent = judul;
-    document.getElementById('modalBookAuthor').textContent = `oleh ${penulis}`;
-    document.getElementById('modalBookPublisher').textContent = penerbit || 'Tidak tersedia';
-    document.getElementById('modalBookYear').textContent = tahun || 'Tidak tersedia';
-    document.getElementById('modalBookCategoryTag').textContent = kategori || 'Umum';
-    document.getElementById('modalBookStock').textContent = `${stok} eksemplar`;
-    
-    // Set book cover image
-    const modalImage = document.getElementById('modalBookImage');
-    modalImage.src = 'uploads/' + gambar;
-    modalImage.alt = 'Cover ' + judul;
-    
-    // Update floating stock badge
-    const floatingBadge = document.getElementById('floatingStockBadge');
-    const stockIcon = document.getElementById('stockIcon');
-    const stockText = document.getElementById('stockText');
-    const pinjamBtn = document.getElementById('pinjamBtn');
-    
-    if (parseInt(stok) > 0) {
-        stockIcon.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>';
-        stockText.textContent = 'Tersedia';
-        floatingBadge.style.background = 'linear-gradient(135deg, #00b894 0%, #00cec9 100%)';
-        
-        pinjamBtn.disabled = false;
-        pinjamBtn.querySelector('.btn-text').textContent = 'Pinjam Sekarang';
-        pinjamBtn.querySelector('.btn-icon').innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>';
-    } else {
-        stockIcon.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line></svg>';
-        stockText.textContent = 'Habis';
-        floatingBadge.style.background = 'linear-gradient(135deg, #e17055 0%, #d63031 100%)';
-        
-        pinjamBtn.disabled = true;
-        pinjamBtn.querySelector('.btn-text').textContent = 'Stok Habis';
-        pinjamBtn.querySelector('.btn-icon').innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>';
+  <script>
+    // Carousel
+    let current = 0;
+    const total = 2;
+    function moveCarousel(dir) {
+      current = (current + dir + total) % total;
+      goToSlide(current);
     }
-    
-    // Set pinjam button action
-    pinjamBtn.onclick = function(e) {
-        if (parseInt(stok) > 0) {
-            // Add ripple effect
-            const ripple = this.querySelector('.btn-ripple');
-            ripple.style.transform = 'scale(0)';
-            ripple.style.opacity = '1';
-            
-            setTimeout(() => {
-                ripple.style.animation = 'ripple 0.6s ease-out';
-            }, 10);
-            
-            // Success feedback
-            setTimeout(() => {
-                const originalText = this.querySelector('.btn-text').textContent;
-                const originalIcon = this.querySelector('.btn-icon').innerHTML;
-                
-                this.querySelector('.btn-text').textContent = 'Berhasil!';
-                this.querySelector('.btn-icon').innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>';
-                this.style.background = 'linear-gradient(135deg, #00b894 0%, #00cec9 100%)';
-                
-                setTimeout(() => {
-                    this.querySelector('.btn-text').textContent = originalText;
-                    this.querySelector('.btn-icon').innerHTML = originalIcon;
-                    this.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
-                }, 2000);
-            }, 300);
+    function goToSlide(i) {
+      current = i;
+      document.getElementById('carouselSlides').style.transform = `translateX(-${i * 100}%)`;
+      document.querySelectorAll('.carousel-dot').forEach((d, idx) => d.classList.toggle('active', idx === i));
+    }
+    setInterval(() => moveCarousel(1), 5000);
+
+    // View toggle
+    function setView(v) {
+      const grid = document.getElementById('booksGrid');
+      grid.classList.toggle('list-view', v === 'list');
+      document.getElementById('gridBtn').classList.toggle('active', v === 'grid');
+      document.getElementById('listBtn').classList.toggle('active', v === 'list');
+    }
+
+    // Search/filter
+    function filterBooks() {
+      const q = document.getElementById('searchInput').value.toLowerCase();
+      const cards = document.querySelectorAll('.book-card');
+      let visible = 0;
+      cards.forEach(c => {
+        const match = c.dataset.judul.includes(q) || c.dataset.penulis.includes(q);
+        c.style.display = match ? '' : 'none';
+        if (match) visible++;
+      });
+      document.getElementById('bookCount').textContent = visible;
+      document.getElementById('emptyState').style.display = visible === 0 ? 'block' : 'none';
+    }
+
+    // Modal
+    function openModal(judul, penulis, penerbit, tahun, kategori, gambar, stok) {
+      document.getElementById('mImg').src = 'uploads/' + gambar;
+      document.getElementById('mJudul').textContent = judul;
+      document.getElementById('mPenulis').textContent = 'oleh ' + penulis;
+      document.getElementById('mKategori').textContent = kategori;
+      document.getElementById('mKategori2').textContent = kategori;
+      document.getElementById('mPenerbit').textContent = penerbit;
+      document.getElementById('mTahun').textContent = tahun;
+      document.getElementById('mStok').textContent = stok + ' eksemplar';
+      const badge = document.getElementById('mStockBadge');
+      badge.textContent = stok > 0 ? 'Tersedia' : 'Stok Habis';
+      badge.className = 'modal-stock-badge ' + (stok > 0 ? 'tersedia' : 'habis');
+      document.getElementById('modalOverlay').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      document.getElementById('modalOverlay').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    function closeModalOutside(e) {
+      if (e.target === document.getElementById('modalOverlay')) closeModal();
+    }
+
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+    // Fade in cards
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+          obs.unobserve(entry.target);
         }
-    };
-}
+      });
+    }, { threshold: 0.08 });
 
-// Add button click animations
-document.addEventListener('DOMContentLoaded', function() {
-    const buttons = document.querySelectorAll('.btn-modern');
-    
-    buttons.forEach(button => {
-        button.addEventListener('click', function(e) {
-            const ripple = this.querySelector('.btn-ripple');
-            if (ripple && !this.disabled) {
-                ripple.style.transform = 'scale(0)';
-                ripple.style.opacity = '1';
-                
-                setTimeout(() => {
-                    ripple.style.animation = 'ripple 0.6s ease-out';
-                }, 10);
-            }
-        });
+    document.querySelectorAll('.book-card').forEach((el, i) => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(20px)';
+      el.style.transition = `opacity 0.5s ease ${(i % 5) * 0.07}s, transform 0.5s ease ${(i % 5) * 0.07}s`;
+      obs.observe(el);
     });
-    
-    // Initialize ScrollReveal
-    ScrollReveal().reveal('.card', {
-        delay: 200,
-        distance: '20px',
-        origin: 'bottom',
-        interval: 100,
-        easing: 'cubic-bezier(0.5, 0, 0, 1)',
-        reset: true
-    });
-});
-
-// Responsive carousel height
-function adjustCarouselHeight() {
-    const carousel = document.querySelector('#carouselBuku .carousel-item img');
-    if (carousel) {
-        const viewportHeight = window.innerHeight;
-        carousel.style.height = Math.min(viewportHeight * 0.5, 500) + 'px';
-    }
-}
-
-window.addEventListener('load', adjustCarouselHeight);
-window.addEventListener('resize', adjustCarouselHeight);
-</script>
+  </script>
 </body>
-</html>
+</html> 

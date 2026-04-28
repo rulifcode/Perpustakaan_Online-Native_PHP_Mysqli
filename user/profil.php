@@ -11,11 +11,9 @@ $user_id = $_SESSION['user_id'];
 $errors = [];
 $success = "";
 
-// Ambil data user
 $result = mysqli_query($conn, "SELECT * FROM users WHERE id_user = $user_id");
 $user = mysqli_fetch_assoc($result);
 
-// Proses update profil
 if (isset($_POST['update'])) {
     $alamat = mysqli_real_escape_string($conn, $_POST['alamat']);
     $jenis_kelamin = $_POST['jenis_kelamin'];
@@ -37,18 +35,16 @@ if (isset($_POST['update'])) {
     }
 }
 
-// Proses upload foto profil
 if (isset($_POST['upload_foto'])) {
     if ($_FILES['foto']['error'] === UPLOAD_ERR_OK) {
         $allowed_types = ['image/jpeg', 'image/png'];
-        $max_size = 2 * 1024 * 1024; // 2MB
+        $max_size = 2 * 1024 * 1024;
 
         if (in_array($_FILES['foto']['type'], $allowed_types) && $_FILES['foto']['size'] <= $max_size) {
             $ext = pathinfo($_FILES['foto']['name'], PATHINFO_EXTENSION);
             $filename = 'profil_' . $user_id . '.' . $ext;
             $upload_path = '../assets/img/profil/' . $filename;
 
-            // Hapus foto lama jika ada dan beda nama
             if (!empty($user['foto_profil']) && file_exists('../assets/img/profil/' . $user['foto_profil']) && $user['foto_profil'] !== $filename) {
                 unlink('../assets/img/profil/' . $user['foto_profil']);
             }
@@ -72,364 +68,558 @@ if (isset($_POST['upload_foto'])) {
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-    <title>Profil Anda - Litera</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil Anda — Litera</title>
     <link rel="icon" type="image/png" href="../assets/img/favicon-32x32.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="../assets/css/header.css">
     <link rel="stylesheet" href="../assets/css/footer.css">
     <script src="../assets/js/header.js"></script>
     <script src="../assets/js/animasi.js" defer></script>
-    <script src="../assets/js/scroll.js" defer></script>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-    
+
     <style>
+        /* ============ DESIGN TOKENS (matching reference CSS) ============ */
+        :root {
+            --navy:       #0d1f4e;
+            --navy-mid:   #1f3c88;
+            --navy-light: #2c55b5;
+            --gold:       #c9a84c;
+            --gold-light: #e6c878;
+            --cream:      #f7f4ef;
+            --cream-dark: #ede9e0;
+            --white:      #ffffff;
+            --text-body:  #3a3a3a;
+            --text-muted: #7a7a7a;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
         body {
-            margin: 0;
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
-            color: #333;
-            min-height: 100vh;
+            font-family: 'DM Sans', sans-serif;
+            background-color: var(--cream);
+            color: var(--text-body);
         }
 
-        /* Hero Section untuk Profil */
-        .profile-hero {
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+        /* ============ PAGE HEADER (compact, consistent with site hero style) ============ */
+        .profile-header {
+            background-color: var(--navy);
+            padding: 72px 0 0;
             position: relative;
-            padding: 4rem 0 2rem;
-            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
             overflow: hidden;
         }
 
-        .profile-hero-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            position: relative;
-            z-index: 2;
-        }
-
-        .profile-hero-text {
-            max-width: 500px;
-            text-align: center;
-            margin: 0 auto; /* Ini yang bikin dia di tengah */
-        }
-
-
-        .welcome-badge {
-            display: inline-block;
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
-            padding: 0.5rem 1rem;
-            border-radius: 2rem;
-            margin-bottom: 1rem;
-        }
-
-        .welcome-badge span {
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: #4a6cf7;
-        }
-
-        .profile-hero h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            line-height: 1.2;
-            color: #1f3c88;
-        }
-
-        .gradient-text {
-            background: linear-gradient(90deg, #4a6cf7 0%, #a855f7 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-
-        .profile-hero-subtext {
-            font-size: 1.2rem;
-            color: #64748b;
-            margin-bottom: 2rem;
-        }
-
-        /* Status Messages */
-        .status-messages {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        .status-message {
-            text-align: center;
-            font-weight: bold;
-            margin: 10px 0;
-            padding: 15px;
-            border-radius: 8px;
-            animation: slideIn 0.3s ease;
-        }
-
-        .status-message.error {
-            color: #b00020;
-            background: #ffe6e9;
-            border: 1px solid #ffcdd2;
-        }
-
-        .status-message.success {
-            color: #0f5132;
-            background: #d1e7dd;
-            border: 1px solid #a3cfbb;
-        }
-
-        /* Profile Section */
-        .profile-section {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-            display: grid;
-            grid-template-columns: 350px 1fr;
-            gap: 3rem;
-            align-items: start;
-        }
-
-        /* Enhanced Profile Card - Konsisten dengan Dashboard */
-        .profile-card {
-            background: white;
-            border-radius: 1rem;
-            padding: 2rem;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-            position: sticky;
-            top: 2rem;
-        }
-
-        .profile-avatar-section {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-
-        .profile-avatar-container {
-            position: relative;
-            width: 150px;
-            height: 150px;
-            margin: 0 auto 1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .profile-avatar-container:hover .profile-edit-overlay {
-            opacity: 1;
-        }
-
-        .profile-avatar-img {
-            width: 100%;
-            height: 100%;
+        .profile-header::before {
+            content: '';
+            position: absolute;
+            top: -150px; right: -150px;
+            width: 500px; height: 500px;
             border-radius: 50%;
+            background: radial-gradient(circle, rgba(201,168,76,0.08) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .profile-header-inner {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: flex-end;
+            gap: 36px;
+            padding-bottom: 0;
+        }
+
+        /* Avatar in header */
+        .header-avatar-wrap {
+            position: relative;
+            flex-shrink: 0;
+            margin-bottom: -40px;
+        }
+
+        .header-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 4px solid var(--gold);
             object-fit: cover;
-            border: 4px solid #e2e8f0;
-            transition: all 0.3s ease;
+            display: block;
+            background: var(--navy-mid);
         }
 
-        .profile-avatar-container:hover .profile-avatar-img {
-            filter: brightness(0.8);
-        }
-
-        .profile-avatar-default {
-            width: 100%;
-            height: 100%;
+        .header-avatar-icon {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 4px solid var(--gold);
+            background: var(--navy-mid);
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 50%;
-            background: #f1f5f9;
-            color: #64748b;
-            font-size: 4rem;
-            border: 4px solid #e2e8f0;
+            color: var(--gold);
+            font-size: 2.8rem;
         }
 
-        .profile-edit-overlay {
+        .header-avatar-edit {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
+            bottom: 4px; right: 4px;
+            width: 32px; height: 32px;
             border-radius: 50%;
+            background: var(--gold);
+            color: var(--navy);
+            border: 2px solid var(--navy);
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            color: white;
-            font-size: 0.8rem;
-        }
-
-        .profile-edit-overlay i {
-            font-size: 1.5rem;
-            margin-bottom: 0.25rem;
-        }
-
-        /* Upload Form */
-        .upload-form {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 1rem;
-            margin-top: 1rem;
-            padding: 1rem;
-            background: #f8fafc;
-            border-radius: 0.5rem;
-        }
-
-        .file-input-wrapper {
-            position: relative;
-            overflow: hidden;
-            display: inline-block;
-        }
-
-        .file-input-wrapper input[type=file] {
-            position: absolute;
-            left: -9999px;
-        }
-
-        .file-input-label {
-            display: inline-flex;
-            align-items: center;
-            padding: 0.75rem 1.5rem;
-            background: #f1f5f9;
-            color: #64748b;
-            border: 2px dashed #cbd5e1;
-            border-radius: 0.5rem;
+            font-size: 0.75rem;
             cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 0.9rem;
+            transition: background 0.2s;
         }
 
-        .file-input-label:hover {
-            background: #e2e8f0;
-            border-color: #94a3b8;
-        }
+        .header-avatar-edit:hover { background: var(--gold-light); }
 
-        .file-input-label i {
-            margin-right: 0.5rem;
-        }
-
-        .upload-btn {
-            background: linear-gradient(135deg, #4a6cf7 0%, #a855f7 100%);
-            color: white;
-            padding: 0.75rem 1.5rem;
-            border: none;
-            border-radius: 0.5rem;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(74, 108, 247, 0.3);
-        }
-
-        .upload-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(74, 108, 247, 0.4);
-        }
-
-        /* Profile Basic Info */
-        .profile-basic-info h2 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            text-align: center;
-            color: #1f3c88;
-        }
-
-        .profile-detail {
-            display: flex;
-            align-items: center;
-            margin-bottom: 0.75rem;
-            color: #64748b;
-            font-size: 0.9rem;
-        }
-
-        .profile-detail i {
-            margin-right: 0.75rem;
-            width: 1.25rem;
-            text-align: center;
-            color: #4a6cf7;
-        }
-
-        /* Profile Form */
-        .profile-form-section {
-            background: white;
-            border-radius: 1rem;
-            padding: 2rem;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-        }
-
-        .form-header {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: #1f3c88;
-            margin-bottom: 2rem;
-            display: flex;
-            align-items: center;
-        }
-
-        .form-header i {
-            margin-right: 0.75rem;
-            color: #4a6cf7;
-        }
-
-        .form-grid {
-            display: grid;
-            gap: 1.5rem;
-        }
-
-        .form-group {
-            display: flex;
-            align-items: center;
-            padding: 1rem 0;
-            border-bottom: 1px solid #f1f5f9;
-        }
-
-        .form-group:last-child {
-            border-bottom: none;
-        }
-
-        .form-label {
-            font-weight: 600;
-            width: 40%;
-            color: #1f3c88;
-            display: flex;
-            align-items: center;
-        }
-
-        .form-label i {
-            margin-right: 0.5rem;
-            color: #4a6cf7;
-            width: 1.25rem;
-        }
-
-        .form-value {
+        /* Header meta */
+        .header-meta {
+            padding-bottom: 24px;
             flex: 1;
         }
 
-        .form-value.readonly {
-            color: #64748b;
-            font-size: 0.95rem;
+        .header-eyebrow {
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .header-meta h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+            font-weight: 400;
+            color: var(--white);
+            line-height: 1.15;
+            margin-bottom: 8px;
+        }
+
+        .header-meta h1 em {
+            font-style: italic;
+            color: var(--gold-light);
+        }
+
+        .header-meta p {
+            font-size: 0.88rem;
+            font-weight: 300;
+            color: rgba(255,255,255,0.5);
+        }
+
+        /* Tab bar at bottom of header */
+        .profile-tabs {
+            display: flex;
+            gap: 0;
+            margin-top: 32px;
+            border-top: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .profile-tab {
+            font-size: 0.78rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.4);
+            padding: 14px 28px;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: color 0.2s, border-color 0.2s;
+            user-select: none;
+        }
+
+        .profile-tab.active {
+            color: var(--gold);
+            border-bottom-color: var(--gold);
+        }
+
+        .profile-tab:hover { color: rgba(255,255,255,0.75); }
+
+        /* ============ STATUS MESSAGES ============ */
+        .status-bar {
+            padding: 0 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .alert {
+            margin-top: 20px;
+            padding: 14px 20px;
+            border-radius: 3px;
+            font-size: 0.88rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .alert-success {
+            background: #eaf5ee;
+            color: #1a5c30;
+            border-left: 3px solid #2d9349;
+        }
+
+        .alert-error {
+            background: #fdf0ef;
+            color: #8b1a12;
+            border-left: 3px solid #c0392b;
+        }
+
+        /* ============ MAIN LAYOUT ============ */
+        .profile-body {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 56px 40px 80px;
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 36px;
+            align-items: start;
+        }
+
+        /* ============ SIDEBAR CARD ============ */
+        .sidebar-card {
+            background: var(--white);
+            border: 1px solid var(--cream-dark);
+            border-radius: 4px;
+            overflow: hidden;
+            position: sticky;
+            top: 24px;
+        }
+
+        .sidebar-top {
+            background: var(--navy);
+            padding: 32px 24px 24px;
+            text-align: center;
+            position: relative;
+        }
+
+        .sidebar-top::after {
+            content: '';
+            position: absolute;
+            bottom: -1px; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+        }
+
+        .sidebar-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 3px solid rgba(201,168,76,0.5);
+            object-fit: cover;
+            margin: 0 auto 12px;
+            display: block;
+        }
+
+        .sidebar-avatar-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 3px solid rgba(201,168,76,0.5);
+            background: var(--navy-mid);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 12px;
+            color: var(--gold);
+            font-size: 2rem;
+        }
+
+        .sidebar-username {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 4px;
+        }
+
+        .sidebar-role {
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--gold);
+        }
+
+        .sidebar-details {
+            padding: 20px 24px;
+        }
+
+        .sidebar-detail-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--cream-dark);
+            font-size: 0.84rem;
+        }
+
+        .sidebar-detail-item:last-child { border-bottom: none; }
+
+        .sidebar-detail-item i {
+            color: var(--gold);
+            width: 14px;
+            margin-top: 2px;
+            font-size: 0.75rem;
+            flex-shrink: 0;
+        }
+
+        .sidebar-detail-label {
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 2px;
+        }
+
+        .sidebar-detail-value {
+            font-weight: 400;
+            color: var(--text-body);
+            word-break: break-word;
+        }
+
+        /* Upload section inside sidebar */
+        .sidebar-upload {
+            padding: 20px 24px;
+            border-top: 1px solid var(--cream-dark);
+            background: var(--cream);
+        }
+
+        .upload-label-text {
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .file-pick-btn {
+            width: 100%;
+            padding: 10px 16px;
+            background: var(--white);
+            border: 1px dashed var(--cream-dark);
+            border-radius: 3px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: border-color 0.2s, color 0.2s;
+            margin-bottom: 10px;
+        }
+
+        .file-pick-btn:hover {
+            border-color: var(--gold);
+            color: var(--navy);
+        }
+
+        .file-pick-btn.selected {
+            border-color: var(--gold);
+            color: var(--navy-mid);
+            background: rgba(201,168,76,0.06);
+        }
+
+        #foto-input { display: none; }
+
+        .btn-upload-submit {
+            width: 100%;
+            padding: 10px;
+            background: var(--navy);
+            color: var(--gold);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.78rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            border: none;
+            border-radius: 2px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-upload-submit:hover { background: var(--navy-mid); }
+
+        .upload-hint {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            text-align: center;
+            margin-top: 8px;
+            display: block;
+        }
+
+        /* ============ MAIN FORM PANEL ============ */
+        .form-panel {
+            background: var(--white);
+            border: 1px solid var(--cream-dark);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .form-panel-header {
+            padding: 28px 36px;
+            border-bottom: 1px solid var(--cream-dark);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .form-panel-header-left {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .form-panel-eyebrow {
+            font-size: 0.68rem;
+            font-weight: 500;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--gold);
+        }
+
+        .form-panel-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.35rem;
+            font-weight: 400;
+            color: var(--navy);
+        }
+
+        /* Section dividers inside form */
+        .form-section {
+            padding: 32px 36px;
+            border-bottom: 1px solid var(--cream);
+        }
+
+        .form-section:last-of-type { border-bottom: none; }
+
+        .form-section-label {
+            font-size: 0.68rem;
+            font-weight: 600;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-section-label::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--cream-dark);
+        }
+
+        /* Readonly info rows */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0;
+        }
+
+        .info-item {
+            padding: 14px 0;
+            border-bottom: 1px solid var(--cream-dark);
+        }
+
+        .info-item:nth-child(odd) { padding-right: 24px; border-right: 1px solid var(--cream-dark); }
+        .info-item:nth-child(even) { padding-left: 24px; }
+
+        .info-item-label {
+            font-size: 0.68rem;
+            font-weight: 500;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+
+        .info-item-value {
+            font-size: 0.92rem;
+            font-weight: 400;
+            color: var(--navy);
+        }
+
+        /* Editable field rows */
+        .field-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .field-grid .field-full { grid-column: 1 / -1; }
+
+        .field-group { display: flex; flex-direction: column; gap: 7px; }
+
+        .field-label {
+            font-size: 0.72rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+
+        .field-label i {
+            color: var(--gold);
+            margin-right: 5px;
+            font-size: 0.65rem;
         }
 
         input[type="text"],
         input[type="date"],
         select,
         textarea {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.92rem;
+            font-weight: 400;
+            color: var(--navy);
+            background: var(--cream);
+            border: 1px solid var(--cream-dark);
+            border-radius: 3px;
+            padding: 10px 14px;
             width: 100%;
-            padding: 0.75rem 1rem;
-            font-size: 0.95rem;
-            border-radius: 0.5rem;
-            border: 2px solid #e2e8f0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-            transition: all 0.3s ease;
+            transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+            appearance: none;
+            -webkit-appearance: none;
+        }
+
+        select {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23c9a84c' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 14px center;
+            padding-right: 36px;
+        }
+
+        textarea {
+            min-height: 90px;
+            resize: vertical;
+            line-height: 1.65;
         }
 
         input[type="text"]:focus,
@@ -437,413 +627,331 @@ if (isset($_POST['upload_foto'])) {
         select:focus,
         textarea:focus {
             outline: none;
-            border-color: #4a6cf7;
-            box-shadow: 0 0 0 3px rgba(74, 108, 247, 0.1);
+            background: var(--white);
+            border-color: var(--gold);
+            box-shadow: 0 0 0 3px rgba(201,168,76,0.12);
         }
 
-        textarea {
-            resize: vertical;
-            min-height: 80px;
+        /* Form footer */
+        .form-footer {
+            padding: 24px 36px;
+            background: var(--cream);
+            border-top: 1px solid var(--cream-dark);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
         }
 
-        .form-actions {
-            margin-top: 2rem;
-            text-align: center;
+        .form-footer-hint {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-weight: 300;
         }
 
-        .update-btn {
-            background: linear-gradient(135deg, #4a6cf7 0%, #a855f7 100%);
-            color: white;
-            padding: 1rem 2rem;
-            font-weight: 600;
-            font-size: 1rem;
-            border: none;
-            border-radius: 0.5rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(74, 108, 247, 0.3);
+        .btn-save {
             display: inline-flex;
             align-items: center;
+            gap: 8px;
+            background: var(--gold);
+            color: var(--navy);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            padding: 13px 32px;
+            border: none;
+            border-radius: 2px;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.15s;
         }
 
-        .update-btn:hover {
+        .btn-save:hover {
+            background: var(--gold-light);
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(74, 108, 247, 0.4);
         }
 
-        .update-btn i {
-            margin-right: 0.5rem;
-        }
+        .btn-save:active { transform: translateY(0); }
 
-        /* Decorative Elements */
-        .hero-decor {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-        }
-
-        .decor-circle {
-            position: absolute;
-            border-radius: 50%;
-            background: rgba(74, 108, 247, 0.1);
-        }
-
-        .circle-1 {
-            width: 300px;
-            height: 300px;
-            top: -100px;
-            right: -100px;
-        }
-
-        .circle-2 {
-            width: 200px;
-            height: 200px;
-            bottom: -50px;
-            left: -50px;
-            background: rgba(168, 85, 247, 0.1);
-        }
-
-        /* Responsive Design */
-        @media (max-width: 992px) {
-            .profile-hero-content {
-                flex-direction: column;
-                text-align: center;
-            }
-            
-            .profile-hero h1 {
-                font-size: 2rem;
-            }
-            
-            .profile-section {
+        /* ============ RESPONSIVE ============ */
+        @media (max-width: 900px) {
+            .profile-body {
                 grid-template-columns: 1fr;
-                gap: 2rem;
             }
-            
-            .profile-card {
-                position: static;
-            }
-            
-            .form-group {
+
+            .sidebar-card { position: static; }
+
+            .profile-header-inner {
                 flex-direction: column;
                 align-items: flex-start;
             }
-            
-            .form-label {
-                width: 100%;
-                margin-bottom: 0.5rem;
-            }
+
+            .header-avatar-wrap { margin-bottom: 0; }
+
+            .profile-tabs { overflow-x: auto; }
         }
 
-        @media (max-width: 576px) {
-            .profile-section {
-                padding: 1rem;
-            }
-            
-            .profile-hero {
-                padding: 2rem 0 1rem;
-            }
-        }
+        @media (max-width: 640px) {
+            .container, .status-bar, .profile-body { padding-left: 20px; padding-right: 20px; }
 
-        /* Animation */
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+            .info-grid, .field-grid { grid-template-columns: 1fr; }
 
-        .fade-in {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.5s ease;
-        }
+            .info-item:nth-child(odd) {
+                padding-right: 0;
+                border-right: none;
+            }
 
-        .fade-in.visible {
-            opacity: 1;
-            transform: translateY(0);
+            .info-item:nth-child(even) { padding-left: 0; }
+
+            .form-section { padding: 24px 20px; }
+            .form-panel-header { padding: 20px; }
+            .form-footer { padding: 20px; flex-direction: column; align-items: stretch; }
+            .btn-save { justify-content: center; }
         }
     </style>
 </head>
 <body>
+
 <?php include '../partials/header_user.php'; ?>
 
-<!-- Hero Section -->
-<section class="profile-hero">
-    <div class="profile-hero-content">
-        <div class="profile-hero-text">
-            <div class="welcome-badge">
-                <span>Kelola Profil Anda</span>
+<!-- ===== PAGE HEADER ===== -->
+<section class="profile-header">
+    <div class="container">
+        <div class="profile-header-inner">
+            <div class="header-avatar-wrap">
+                <?php if (!empty($user['foto_profil']) && file_exists('../assets/img/profil/' . $user['foto_profil'])): ?>
+                    <img src="../assets/img/profil/<?= htmlspecialchars($user['foto_profil']) ?>"
+                         alt="Foto Profil" class="header-avatar">
+                <?php else: ?>
+                    <div class="header-avatar-icon"><i class="fas fa-user"></i></div>
+                <?php endif; ?>
+                <label for="foto-input-header" class="header-avatar-edit" title="Ubah foto">
+                    <i class="fas fa-camera"></i>
+                </label>
             </div>
-            <h1><i class="fas fa-user-circle"></i> Profil <span class="gradient-text"><?= htmlspecialchars($user['nama'] ?? $user['username']) ?></span></h1>
-            <p class="profile-hero-subtext">Perbarui informasi profil dan foto Anda di sini</p>
+
+            <div class="header-meta">
+                <span class="header-eyebrow">Akun Litera</span>
+                <h1><em><?= htmlspecialchars($user['nama'] ?? $user['username']) ?></em></h1>
+                <p>
+                    <?= htmlspecialchars(ucfirst($user['kategori'])) ?> &nbsp;·&nbsp;
+                    <?= htmlspecialchars($user['asal_institusi'] ?? '-') ?> &nbsp;·&nbsp;
+                    Bergabung <?= date("M Y", strtotime($user['created_at'])) ?>
+                </p>
+            </div>
         </div>
-    </div>
-    
-    <!-- Decorative elements -->
-    <div class="hero-decor">
-        <div class="decor-circle circle-1"></div>
-        <div class="decor-circle circle-2"></div>
+
+        <div class="profile-tabs">
+            <div class="profile-tab active" data-tab="info">Informasi Profil</div>
+            <div class="profile-tab" data-tab="foto">Foto Profil</div>
+        </div>
     </div>
 </section>
 
-<!-- Status Messages -->
-<div class="status-messages">
-    <?php foreach ($errors as $error): ?>
-        <div class="status-message error"><?php echo htmlspecialchars($error); ?></div>
+<!-- ===== STATUS MESSAGES ===== -->
+<div class="status-bar">
+    <?php foreach ($errors as $err): ?>
+        <div class="alert alert-error"><i class="fas fa-exclamation-circle"></i> <?= htmlspecialchars($err) ?></div>
     <?php endforeach; ?>
-
     <?php if ($success): ?>
-        <div class="status-message success"><?php echo htmlspecialchars($success); ?></div>
+        <div class="alert alert-success"><i class="fas fa-check-circle"></i> <?= htmlspecialchars($success) ?></div>
     <?php endif; ?>
 </div>
 
-<!-- Profile Content -->
-<div class="profile-section">
-    <!-- Profile Card - Konsisten dengan Dashboard -->
-    <div class="profile-card fade-in">
-        <div class="profile-avatar-section">
-            <div class="profile-avatar-container">
-                <?php 
-                $foto_path = $user['foto_profil'] ? "../assets/img/profil/" . $user['foto_profil'] : "../assets/img/default-avatar.png";
-                ?>
-                
-                <?php if (!empty($user['foto_profil']) && file_exists('../assets/img/profil/' . $user['foto_profil'])): ?>
-                    <img src="<?= htmlspecialchars($foto_path) ?>" 
-                         alt="Profile Photo" class="profile-avatar-img">
-                <?php else: ?>
-                    <div class="profile-avatar-default">
-                        <i class="fas fa-user-circle"></i>
-                    </div>
-                <?php endif; ?>
-                
-                <div class="profile-edit-overlay">
-                    <i class="fas fa-camera"></i>
-                    <span>Ubah Foto</span>
+<!-- ===== MAIN BODY ===== -->
+<div class="profile-body">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar-card">
+        <div class="sidebar-top">
+            <?php if (!empty($user['foto_profil']) && file_exists('../assets/img/profil/' . $user['foto_profil'])): ?>
+                <img src="../assets/img/profil/<?= htmlspecialchars($user['foto_profil']) ?>"
+                     alt="Foto" class="sidebar-avatar">
+            <?php else: ?>
+                <div class="sidebar-avatar-icon"><i class="fas fa-user"></i></div>
+            <?php endif; ?>
+            <div class="sidebar-username"><?= htmlspecialchars($user['username']) ?></div>
+            <div class="sidebar-role"><?= htmlspecialchars(ucfirst($user['kategori'])) ?></div>
+        </div>
+
+        <div class="sidebar-details">
+            <div class="sidebar-detail-item">
+                <i class="fas fa-envelope"></i>
+                <div>
+                    <div class="sidebar-detail-label">Email</div>
+                    <div class="sidebar-detail-value"><?= htmlspecialchars($user['email']) ?></div>
                 </div>
             </div>
-            
-            <!-- Upload Form -->
-            <form method="post" enctype="multipart/form-data" class="upload-form">
-                <div class="file-input-wrapper">
-                    <input type="file" name="foto" accept="image/png, image/jpeg" required id="foto-input">
-                    <label for="foto-input" class="file-input-label">
-                        <i class="fas fa-upload"></i>
-                        Pilih Foto
-                    </label>
+            <div class="sidebar-detail-item">
+                <i class="fas fa-university"></i>
+                <div>
+                    <div class="sidebar-detail-label">Institusi</div>
+                    <div class="sidebar-detail-value"><?= htmlspecialchars($user['asal_institusi'] ?? '-') ?></div>
                 </div>
-                <button type="submit" name="upload_foto" class="upload-btn">
-                    <i class="fas fa-save"></i>
-                    Upload Foto
+            </div>
+            <div class="sidebar-detail-item">
+                <i class="fas fa-id-card"></i>
+                <div>
+                    <div class="sidebar-detail-label">Identitas</div>
+                    <div class="sidebar-detail-value"><?= htmlspecialchars($user['identitas'] ?? '-') ?></div>
+                </div>
+            </div>
+            <div class="sidebar-detail-item">
+                <i class="fas fa-calendar-alt"></i>
+                <div>
+                    <div class="sidebar-detail-label">Bergabung</div>
+                    <div class="sidebar-detail-value"><?= date("d M Y", strtotime($user['created_at'])) ?></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Upload foto -->
+        <div class="sidebar-upload">
+            <span class="upload-label-text">Ganti Foto Profil</span>
+            <form method="post" enctype="multipart/form-data" id="upload-form">
+                <input type="file" name="foto" id="foto-input" accept="image/png, image/jpeg">
+                <input type="file" name="foto" id="foto-input-header" accept="image/png, image/jpeg" style="display:none">
+                <label for="foto-input" class="file-pick-btn" id="file-label">
+                    <i class="fas fa-image"></i>
+                    <span id="file-label-text">Pilih Foto…</span>
+                </label>
+                <button type="submit" name="upload_foto" class="btn-upload-submit">
+                    <i class="fas fa-arrow-up"></i> &nbsp;Simpan Foto
                 </button>
-                <small style="color: #64748b; text-align: center;">
-                    Format: JPG, PNG. Maksimal 2MB
-                </small>
+                <span class="upload-hint">JPG / PNG · Maks. 2 MB</span>
             </form>
         </div>
-        
-        <!-- Basic Profile Info -->
-        <div class="profile-basic-info">
-            <h2><?= htmlspecialchars($user['username'] ?? 'Username tidak tersedia') ?></h2>
-            <div class="profile-detail">
-                <i class="fas fa-envelope"></i>
-                <span><?= htmlspecialchars($user['email']) ?></span>
-            </div>
-            <div class="profile-detail">
-                <i class="fas fa-university"></i>
-                <span><?= htmlspecialchars($user['asal_institusi'] ?? '-') ?></span>
-            </div>
-            <div class="profile-detail">
-                <i class="fas fa-id-card"></i>
-                <span><?= htmlspecialchars($user['identitas'] ?? '-') ?></span>
-            </div>
-            <div class="profile-detail">
-                <i class="fas fa-tag"></i>
-                <span><?= htmlspecialchars(ucfirst($user['kategori'])) ?></span>
-            </div>
-            <div class="profile-detail">
-                <i class="fas fa-calendar"></i>
-                <span>Bergabung <?= date("d M Y", strtotime($user['created_at'])) ?></span>
-            </div>
-        </div>
-    </div>
+    </aside>
 
-    <!-- Profile Form -->
-    <div class="profile-form-section fade-in">
-        <div class="form-header">
-            <i class="fas fa-edit"></i>
-            Edit Informasi Profil
+    <!-- MAIN FORM -->
+    <div class="form-panel">
+        <div class="form-panel-header">
+            <div class="form-panel-header-left">
+                <span class="form-panel-eyebrow">Edit Data</span>
+                <span class="form-panel-title">Informasi Profil</span>
+            </div>
         </div>
-        
+
+        <!-- READONLY section -->
+        <div class="form-section">
+            <div class="form-section-label">Data Akun</div>
+            <div class="info-grid">
+                <div class="info-item">
+                    <div class="info-item-label">Nama Lengkap</div>
+                    <div class="info-item-value"><?= htmlspecialchars($user['nama']) ?></div>
+                </div>
+                <div class="info-item">
+                    <div class="info-item-label">Username</div>
+                    <div class="info-item-value"><?= htmlspecialchars($user['username']) ?></div>
+                </div>
+                <div class="info-item">
+                    <div class="info-item-label">Email</div>
+                    <div class="info-item-value"><?= htmlspecialchars($user['email']) ?></div>
+                </div>
+                <div class="info-item">
+                    <div class="info-item-label">Kategori</div>
+                    <div class="info-item-value"><?= htmlspecialchars(ucfirst($user['kategori'])) ?></div>
+                </div>
+                <div class="info-item">
+                    <div class="info-item-label">Identitas</div>
+                    <div class="info-item-value"><?= htmlspecialchars($user['identitas'] ?? '-') ?></div>
+                </div>
+                <div class="info-item">
+                    <div class="info-item-label">Asal Institusi</div>
+                    <div class="info-item-value"><?= htmlspecialchars($user['asal_institusi'] ?? '-') ?></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- EDITABLE section -->
         <form method="post">
-            <div class="form-grid">
-                <!-- Readonly Fields -->
-                <div class="form-group">
-                    <div class="form-label">
-                        <i class="fas fa-user"></i>
-                        Nama Lengkap
-                    </div>
-                    <div class="form-value readonly"><?= htmlspecialchars($user['nama']) ?></div>
-                </div>
+            <div class="form-section">
+                <div class="form-section-label">Data Pribadi</div>
+                <div class="field-grid">
 
-                <div class="form-group">
-                    <div class="form-label">
-                        <i class="fas fa-envelope"></i>
-                        Email
-                    </div>
-                    <div class="form-value readonly"><?= htmlspecialchars($user['email']) ?></div>
-                </div>
-
-                <div class="form-group">
-                    <div class="form-label">
-                        <i class="fas fa-at"></i>
-                        Username
-                    </div>
-                    <div class="form-value readonly"><?= htmlspecialchars($user['username']) ?></div>
-                </div>
-
-                <div class="form-group">
-                    <div class="form-label">
-                        <i class="fas fa-tag"></i>
-                        Kategori
-                    </div>
-                    <div class="form-value readonly"><?= htmlspecialchars(ucfirst($user['kategori'])) ?></div>
-                </div>
-
-                <div class="form-group">
-                    <div class="form-label">
-                        <i class="fas fa-id-card"></i>
-                        Identitas
-                    </div>
-                    <div class="form-value readonly"><?= htmlspecialchars($user['identitas']) ?></div>
-                </div>
-
-                <div class="form-group">
-                    <div class="form-label">
-                        <i class="fas fa-university"></i>
-                        Asal Institusi
-                    </div>
-                    <div class="form-value readonly"><?= htmlspecialchars($user['asal_institusi']) ?></div>
-                </div>
-
-                <!-- Editable Fields -->
-                <div class="form-group">
-                    <div class="form-label">
-                        <i class="fas fa-map-marker-alt"></i>
-                        Alamat
-                    </div>
-                    <div class="form-value">
-                        <textarea name="alamat" required placeholder="Masukkan alamat lengkap Anda"><?= htmlspecialchars($user['alamat']) ?></textarea>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="form-label">
-                        <i class="fas fa-venus-mars"></i>
-                        Jenis Kelamin
-                    </div>
-                    <div class="form-value">
+                    <div class="field-group">
+                        <label class="field-label"><i class="fas fa-venus-mars"></i>Jenis Kelamin</label>
                         <select name="jenis_kelamin" required>
-                            <option value="L" <?php if ($user['jenis_kelamin'] == 'L') echo 'selected'; ?>>Laki-laki</option>
-                            <option value="P" <?php if ($user['jenis_kelamin'] == 'P') echo 'selected'; ?>>Perempuan</option>
+                            <option value="L - profil.php:876" <?php if ($user['jenis_kelamin'] == 'L') echo 'selected'; ?>>Laki-laki</option>
+                            <option value="P - profil.php:877" <?php if ($user['jenis_kelamin'] == 'P') echo 'selected'; ?>>Perempuan</option>
                         </select>
                     </div>
-                </div>
 
-                <div class="form-group">
-                    <div class="form-label">
-                        <i class="fas fa-birthday-cake"></i>
-                        Tanggal Lahir
+                    <div class="field-group">
+                        <label class="field-label"><i class="fas fa-birthday-cake"></i>Tanggal Lahir</label>
+                        <input type="date" name="tanggal_lahir" value="<?= htmlspecialchars($user['tanggal_lahir'] ?? '') ?>" required>
                     </div>
-                    <div class="form-value">
-                        <input type="date" name="tanggal_lahir" value="<?= $user['tanggal_lahir'] ?>" required>
-                    </div>
-                </div>
 
-                <div class="form-group">
-                    <div class="form-label">
-                        <i class="fas fa-phone"></i>
-                        Nomor Telepon
+                    <div class="field-group">
+                        <label class="field-label"><i class="fas fa-phone"></i>Nomor Telepon</label>
+                        <input type="text" name="nomor_telepon"
+                               value="<?= htmlspecialchars($user['nomor_telepon'] ?? '') ?>"
+                               placeholder="081234567890" required>
                     </div>
-                    <div class="form-value">
-                        <input type="text" name="nomor_telepon" 
-                               value="<?= htmlspecialchars($user['nomor_telepon']) ?>" 
-                               required placeholder="Contoh: 081234567890">
+
+                    <div class="field-group field-full">
+                        <label class="field-label"><i class="fas fa-map-marker-alt"></i>Alamat</label>
+                        <textarea name="alamat" placeholder="Masukkan alamat lengkap Anda" required><?= htmlspecialchars($user['alamat'] ?? '') ?></textarea>
                     </div>
+
                 </div>
             </div>
 
-            <div class="form-actions">
-                <button type="submit" name="update" class="update-btn">
-                    <i class="fas fa-save"></i>
-                    Update Profil
+            <div class="form-footer">
+                <span class="form-footer-hint">* Nama, email, dan username tidak dapat diubah sendiri.</span>
+                <button type="submit" name="update" class="btn-save">
+                    <i class="fas fa-save"></i> Simpan Perubahan
                 </button>
             </div>
         </form>
     </div>
-</div>
+
+</div><!-- /.profile-body -->
 
 <?php include '../partials/footer.php'; ?>
 
 <script>
-// Enhanced scroll animation
-const fadeElements = document.querySelectorAll('.fade-in');
+    // File input label update
+    const fotoInput = document.getElementById('foto-input');
+    const fotoInputHeader = document.getElementById('foto-input-header');
+    const fileLabelText = document.getElementById('file-label-text');
+    const fileLabel = document.getElementById('file-label');
 
-const revealOnScroll = () => {
-    fadeElements.forEach((element, index) => {
-        const rect = element.getBoundingClientRect();
-        const isVisible = rect.top < window.innerHeight - 100;
-        
-        if (isVisible) {
-            setTimeout(() => {
-                element.classList.add('visible');
-            }, index * 100);
+    function onFileChange(e) {
+        const name = e.target.files[0]?.name;
+        if (name) {
+            fileLabelText.textContent = name.length > 22 ? name.slice(0, 20) + '…' : name;
+            fileLabel.classList.add('selected');
+            // Sync if header input was used
+            if (e.target === fotoInputHeader) {
+                const dt = new DataTransfer();
+                dt.items.add(e.target.files[0]);
+                fotoInput.files = dt.files;
+            }
         }
-    });
-};
-
-// File input enhancement
-const fileInput = document.getElementById('foto-input');
-const fileLabel = document.querySelector('.file-input-label');
-
-fileInput.addEventListener('change', function(e) {
-    const fileName = e.target.files[0]?.name;
-    if (fileName) {
-        fileLabel.innerHTML = `<i class="fas fa-check"></i> ${fileName}`;
-        fileLabel.style.background = '#e0f2fe';
-        fileLabel.style.borderColor = '#4a6cf7';
-        fileLabel.style.color = '#4a6cf7';
     }
-});
 
-// Initialize animations
-document.addEventListener('DOMContentLoaded', function() {
-    revealOnScroll();
-});
+    fotoInput.addEventListener('change', onFileChange);
+    fotoInputHeader.addEventListener('change', onFileChange);
 
-window.addEventListener('scroll', revealOnScroll);
-window.addEventListener('load', revealOnScroll);
+    // Tab switching (cosmetic, both sections are visible but tabs highlight active state)
+    document.querySelectorAll('.profile-tab').forEach(tab => {
+        tab.addEventListener('click', function () {
+            document.querySelectorAll('.profile-tab').forEach(t => t.classList.remove('active'));
+            this.classList.add('active');
+        });
+    });
 
-// Auto-hide success/error messages
-document.addEventListener('DOMContentLoaded', function() {
-    const messages = document.querySelectorAll('.status-message');
-    messages.forEach(message => {
+    // Auto-dismiss alerts after 5s
+    document.querySelectorAll('.alert').forEach(el => {
         setTimeout(() => {
-            message.style.opacity = '0';
-            message.style.transform = 'translateY(-20px)';
-            setTimeout(() => {
-                message.remove();
-            }, 300);
+            el.style.transition = 'opacity 0.4s, transform 0.4s';
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(-8px)';
+            setTimeout(() => el.remove(), 400);
         }, 5000);
     });
-});
 </script>
-
 </body>
 </html>
