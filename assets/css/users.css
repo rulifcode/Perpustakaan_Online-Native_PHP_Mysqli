@@ -1,0 +1,92 @@
+/* === users.css === */
+.main-content {
+    padding: 30px;
+    background-color: #f2f8fc;
+    min-height: 100vh;
+}
+
+.card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 25px 30px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    margin: 20px auto;
+    max-width: 98%;
+}
+
+.title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #003f7f;
+    margin-bottom: 20px;
+}
+
+.search-form {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.input-search {
+    flex: 1;
+    padding: 10px 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px 0 0 8px;
+    font-size: 14px;
+    outline: none;
+}
+
+.btn-search {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 0 8px 8px 0;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-search:hover {
+    background-color: #0056b3;
+}
+
+.table-responsive {
+    overflow-x: auto;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.table th {
+    background-color: #007bff;
+    color: white;
+    padding: 12px;
+    text-align: left;
+    font-weight: 600;
+}
+
+.table td {
+    padding: 12px;
+    border-bottom: 1px solid #eaeaea;
+    vertical-align: top;
+    font-size: 14px;
+}
+
+.table tr:hover {
+    background-color: #f0f8ff;
+}
+
+.back-link {
+    display: inline-block;
+    margin-top: 25px;
+    text-decoration: none;
+    color: #007bff;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.back-link:hover {
+    color: #0056b3;
+}

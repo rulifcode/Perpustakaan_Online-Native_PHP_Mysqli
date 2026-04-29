@@ -1,0 +1,8 @@
+vendor/
+uploads/
+*.rar
+composer.phar
+composer.bat
+composer
+.env
+.DS_Store

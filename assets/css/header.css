@@ -1,0 +1,503 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,400&family=Jost:wght@300;400;500;600&display=swap');
+
+/* ══════════════════════════════════════
+   LITERA HEADER
+══════════════════════════════════════ */
+
+:root{
+  --gold:#c8aa64;
+  --gold-light:#e8d9b5;
+  --gold-dim:rgba(200,170,100,.12);
+  --ink:#0a0e17;
+  --surface:#0e1a2b;
+  --surface-2:#0b1420;
+  --border:rgba(200,170,100,.13);
+  --text:#e8e0d5;
+  --text-dim:rgba(232,224,213,.55);
+  --text-muted:rgba(232,224,213,.32);
+}
+
+*,*::before,*::after{box-sizing:border-box;}
+
+.litera-header{
+  background:var(--surface);
+  font-family:'Jost',sans-serif;
+  position:sticky;
+  top:0;
+  z-index:1000;
+}
+
+/* ── TOPBAR ── */
+.litera-topbar{
+  border-bottom:1px solid rgba(200,170,100,.07);
+  padding:6px 52px;
+  display:flex;
+  justify-content:flex-end;
+  align-items:center;
+  gap:20px;
+}
+
+.litera-topbar span{
+  font-size:10px;
+  color:var(--text-muted);
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  font-weight:300;
+}
+
+.litera-topbar .divider{
+  width:1px;
+  height:10px;
+  background:rgba(200,170,100,.18);
+}
+
+/* ── MAIN BAR ── */
+.litera-main{
+  height:74px;
+  padding:0 52px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  position:relative;
+}
+
+.litera-main::after{
+  content:'';
+  position:absolute;
+  left:52px;
+  right:52px;
+  bottom:0;
+  height:1px;
+  background:linear-gradient(90deg,transparent,rgba(200,170,100,.32) 35%,rgba(200,170,100,.32) 65%,transparent);
+}
+
+/* ── LOGO ── */
+.litera-logo{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  text-decoration:none;
+  flex-shrink:0;
+}
+
+.litera-logo img{
+  width:36px;
+  height:36px;
+  object-fit:contain;
+}
+
+.litera-logo-name{
+  display:block;
+  font-family:'Cormorant Garamond',serif;
+  font-size:22px;
+  font-weight:600;
+  color:var(--gold-light);
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  line-height:1;
+}
+
+.litera-logo-tag{
+  display:block;
+  margin-top:4px;
+  font-size:7.5px;
+  color:var(--text-muted);
+  letter-spacing:.3em;
+  text-transform:uppercase;
+  font-family:'Jost',sans-serif;
+}
+
+/* ── NAV DESKTOP ── */
+.litera-nav{
+  position:absolute;
+  left:50%;
+  transform:translateX(-50%);
+  display:flex;
+  align-items:center;
+  gap:36px;
+}
+
+.litera-nav a{
+  text-decoration:none;
+  color:var(--text-dim);
+  font-size:10.5px;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  font-weight:400;
+  position:relative;
+  padding:4px 0;
+  transition:color .2s;
+  white-space:nowrap;
+}
+
+.litera-nav a::after{
+  content:'';
+  position:absolute;
+  left:0;
+  bottom:-2px;
+  width:0;
+  height:1px;
+  background:var(--gold);
+  transition:width .25s;
+}
+
+.litera-nav a:hover,
+.litera-nav a.active{color:var(--gold-light);}
+
+.litera-nav a:hover::after,
+.litera-nav a.active::after{width:100%;}
+
+/* ── RIGHT ACTIONS ── */
+.litera-actions{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  flex-shrink:0;
+}
+
+/* ── USER INFO ── */
+.litera-user-info{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.litera-user-avatar,
+.litera-user-avatar-placeholder{
+  width:32px;
+  height:32px;
+  border-radius:50%;
+  flex-shrink:0;
+}
+
+.litera-user-avatar{
+  object-fit:cover;
+  border:1.5px solid rgba(200,170,100,.35);
+}
+
+.litera-user-avatar-placeholder{
+  background:var(--gold-dim);
+  border:1.5px solid rgba(200,170,100,.3);
+  color:var(--gold-light);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:12px;
+  font-weight:600;
+}
+
+.litera-user-name{
+  color:var(--text);
+  font-size:13px;
+  font-weight:300;
+}
+
+.litera-btn-masuk{
+  text-decoration:none;
+  background:var(--gold);
+  color:var(--ink);
+  font-family:'Jost',sans-serif;
+  font-size:10px;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  font-weight:500;
+  padding:10px 22px;
+  transition:background .2s, transform .15s;
+  white-space:nowrap;
+  display:inline-block;
+}
+
+.litera-btn-masuk:hover{
+  background:var(--gold-light);
+  transform:translateY(-1px);
+}
+
+/* ══════════════════════════════════════
+   HAMBURGER
+══════════════════════════════════════ */
+.litera-hamburger{
+  display:none;
+  flex-direction:column;
+  justify-content:center;
+  gap:5px;
+  width:38px;
+  height:38px;
+  background:none;
+  border:1px solid var(--border);
+  cursor:pointer;
+  padding:9px;
+  flex-shrink:0;
+  transition:border-color .2s;
+}
+
+.litera-hamburger:hover{border-color:rgba(200,170,100,.45);}
+
+.litera-hamburger span{
+  display:block;
+  height:1px;
+  background:var(--gold-light);
+  transition:transform .25s, opacity .2s, width .2s;
+  transform-origin:center;
+}
+
+.litera-hamburger span:nth-child(2){
+  width:65%;
+  align-self:flex-end;
+}
+
+.litera-header.nav-open .litera-hamburger span:nth-child(1){
+  transform:translateY(6px) rotate(45deg);
+}
+.litera-header.nav-open .litera-hamburger span:nth-child(2){
+  opacity:0;width:0;
+}
+.litera-header.nav-open .litera-hamburger span:nth-child(3){
+  transform:translateY(-6px) rotate(-45deg);
+}
+
+/* ══════════════════════════════════════
+   MOBILE FULLSCREEN NAV
+══════════════════════════════════════ */
+.litera-mobile-nav{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(10,14,23,.97);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+  z-index:9998;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:0;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .28s;
+}
+
+.litera-header.nav-open .litera-mobile-nav{
+  opacity:1;
+  pointer-events:all;
+}
+
+/* Decorative top rule */
+.litera-mobile-nav::before{
+  content:'';
+  position:absolute;
+  top:0;
+  left:15%;
+  right:15%;
+  height:1px;
+  background:linear-gradient(90deg,transparent,rgba(200,170,100,.25),transparent);
+}
+
+.litera-mobile-nav a{
+  text-decoration:none;
+  color:rgba(232,224,213,.6);
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(28px,6vw,46px);
+  font-weight:600;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  padding:12px 0;
+  border-bottom:1px solid rgba(255,255,255,.04);
+  width:min(400px,80vw);
+  text-align:center;
+  transition:color .2s;
+  position:relative;
+}
+
+.litera-mobile-nav a:first-of-type{
+  border-top:1px solid rgba(255,255,255,.04);
+}
+
+.litera-mobile-nav a:hover,
+.litera-mobile-nav a.active{
+  color:var(--gold-light);
+}
+
+/* Small tag under active link */
+.litera-mobile-nav a.active::after{
+  content:'—';
+  display:block;
+  font-size:12px;
+  color:var(--gold);
+  letter-spacing:.2em;
+  margin-top:-6px;
+}
+
+/* Logout / login button inside mobile nav */
+.litera-mobile-nav .litera-mobile-btn{
+  margin-top:32px;
+  display:inline-block;
+  text-decoration:none;
+  background:var(--gold);
+  color:var(--ink);
+  font-family:'Jost',sans-serif;
+  font-size:11px;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  font-weight:500;
+  padding:13px 40px;
+  transition:background .2s;
+  border:none;
+  cursor:pointer;
+  /* reset link-style dari selector .litera-mobile-nav a */
+  border-top:none;
+  border-bottom:none;
+  width:auto;
+}
+
+.litera-mobile-nav .litera-mobile-btn:hover{
+  background:var(--gold-light);
+  color:var(--ink);
+}
+
+/* Pastikan active::after tidak muncul di tombol */
+.litera-mobile-nav .litera-mobile-btn.active::after,
+.litera-mobile-nav .litera-mobile-btn::after{
+  display:none !important;
+}
+
+/* Close button */
+.litera-mobile-close{
+  position:absolute;
+  top:20px;
+  right:20px;
+  background:none;
+  border:1px solid var(--border);
+  color:var(--text-muted);
+  font-size:18px;
+  width:40px;
+  height:40px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  transition:border-color .2s, color .2s;
+  z-index:1;
+}
+
+.litera-mobile-close:hover{
+  border-color:rgba(200,170,100,.45);
+  color:var(--gold-light);
+}
+
+/* ── USER INFO di dalam mobile nav (khusus header_user) ── */
+.litera-mobile-user{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding-bottom:24px;
+  margin-bottom:4px;
+  border-bottom:1px solid rgba(200,170,100,.12);
+  width:min(400px,80vw);
+  justify-content:center;
+}
+
+.litera-mobile-user .litera-user-avatar,
+.litera-mobile-user .litera-user-avatar-placeholder{
+  width:40px;
+  height:40px;
+  font-size:15px;
+}
+
+.litera-mobile-user .litera-user-name{
+  font-size:14px;
+  font-weight:400;
+  color:var(--text);
+  letter-spacing:.06em;
+}
+
+/* ══════════════════════════════════════
+   TABLET  ≤ 1024px
+══════════════════════════════════════ */
+@media(max-width:1024px){
+
+  .litera-topbar{
+    padding:6px 28px;
+  }
+
+  .litera-main{
+    padding:0 28px;
+    height:68px;
+  }
+
+  .litera-main::after{
+    left:28px;
+    right:28px;
+  }
+
+  .litera-nav{gap:20px;}
+
+  .litera-nav a{font-size:10px;}
+
+  /* Sembunyikan nama user di tablet, avatar tetap tampil */
+  .litera-user-name{display:none;}
+}
+
+/* ══════════════════════════════════════
+   MOBILE  ≤ 768px
+══════════════════════════════════════ */
+@media(max-width:768px){
+
+  .litera-topbar{display:none;}
+
+  .litera-main{
+    height:62px;
+    padding:0 20px;
+    display:grid;
+    grid-template-columns:1fr auto;
+    align-items:center;
+  }
+
+  .litera-main::after{
+    left:20px;
+    right:20px;
+  }
+
+  /* Sembunyikan desktop nav */
+  .litera-nav{display:none;}
+
+  /* Sembunyikan tombol login/logout desktop */
+  .litera-btn-masuk{display:none;}
+
+  /* Sembunyikan nama & info user di header bar */
+  .litera-user-name{display:none;}
+  .litera-user-info{display:none;}
+
+  /* Tampilkan hamburger */
+  .litera-hamburger{display:flex;}
+
+  /* Tampilkan mobile nav overlay */
+  .litera-mobile-nav{display:flex;}
+
+  .litera-logo-name{font-size:20px;}
+}
+
+/* ══════════════════════════════════════
+   SMALL  ≤ 480px
+══════════════════════════════════════ */
+@media(max-width:480px){
+
+  .litera-main{
+    padding:0 16px;
+    height:58px;
+  }
+
+  .litera-main::after{
+    left:16px;
+    right:16px;
+  }
+
+  .litera-logo img{width:30px;height:30px;}
+
+  .litera-logo-name{font-size:18px;letter-spacing:.12em;}
+
+  .litera-logo-tag{display:none;}
+
+  .litera-mobile-nav a{
+    font-size:clamp(24px,7vw,36px);
+    padding:10px 0;
+  }
+}
