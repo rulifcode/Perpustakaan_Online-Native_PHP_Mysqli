@@ -1,0 +1,14 @@
+[package]
+name = "perpustakaan"
+version = "0.1.0"
+
+[[module]]
+name = "php"
+source = "https://wasmer.io/php/php"
+
+[command]
+module = "php"
+runner = "wasi"
+
+[command.annotations.wasi]
+main-args = ["-S", "localhost:8080", "-t", "."]
