@@ -11,4 +11,4 @@ module = "php"
 runner = "wasi"
 
 [command.annotations.wasi]
-main-args = ["-S", "localhost:8080", "-t", "."]
+main-args = ["-S", "0.0.0.0:${PORT}", "-t", "."]
